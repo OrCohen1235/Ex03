@@ -1,0 +1,7 @@
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\GarageLogic\bin\Debug\GarageLogic.dll.config
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\GarageLogic\bin\Debug\GarageLogic.dll
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\GarageLogic\bin\Debug\GarageLogic.pdb
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\GarageLogic\obj\Debug\GarageLogic.csproj.AssemblyReference.cache
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\GarageLogic\obj\Debug\GarageLogic.csproj.CoreCompileInputs.cache
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\GarageLogic\obj\Debug\GarageLogic.dll
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\GarageLogic\obj\Debug\GarageLogic.pdb

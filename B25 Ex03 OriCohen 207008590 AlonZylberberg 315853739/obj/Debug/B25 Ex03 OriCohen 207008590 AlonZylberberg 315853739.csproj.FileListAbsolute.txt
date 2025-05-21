@@ -1,0 +1,11 @@
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\obj\Debug\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739.csproj.AssemblyReference.cache
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\obj\Debug\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739.csproj.CoreCompileInputs.cache
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\bin\Debug\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739.exe.config
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\bin\Debug\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739.exe
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\bin\Debug\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739.pdb
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\bin\Debug\GarageLogic.dll
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\bin\Debug\GarageLogic.pdb
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\bin\Debug\GarageLogic.dll.config
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\obj\Debug\B25 Ex03.98A8B75B.Up2Date
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\obj\Debug\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739.exe
+C:\Users\orcoh\source\repos\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\obj\Debug\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739.pdb

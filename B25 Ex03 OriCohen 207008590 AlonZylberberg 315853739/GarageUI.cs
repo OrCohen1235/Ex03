@@ -76,6 +76,8 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
 
                             if (!Enum.TryParse<Ex03.GarageLogic.eLicenseType>(parts[9].Trim(), ignoreCase: true, out var licenseType))
                             {
+                                // todo : understand why the continue 
+                                throw new ArgumentException($"Invalid license type for FuelMotorcycle: {parts[8]}");
                                 Console.WriteLine($"Invalid license type for FuelMotorcycle: {parts[8]}");
                                 continue; // דילוג על השורה כי הערך לא תקין
                             }
@@ -357,6 +359,8 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
 
             if (!isParsed)
             {
+                throw new ArgumentException("Invalid status entered. Please try again.");
+                // todo : understand what is the reset of consols 
                 Console.WriteLine($"Invalid status: {i_newStatus}. Valid statuses are:");
                 foreach (string status in Enum.GetNames(typeof(VehicleRecords.eVehicleStatus)))
                 {
@@ -370,6 +374,22 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
         }
 
 
+        public void showVeichleDetailsByLicense(string i_LicenseNumber)
+        {
+            if (vehicles.ContainsKey(i_LicenseNumber))
+            {
+                var vehicleRecord = vehicles[i_LicenseNumber];
+                Console.WriteLine($"License Number: {vehicleRecord.m_Vehicle.LicenseNumber}");
+                Console.WriteLine($"Model Name: {vehicleRecord.m_Vehicle.ModelName}");
+                Console.WriteLine($"Owner Name: {vehicleRecord.m_NameOfOwner}");
+                Console.WriteLine($"Phone Number: {vehicleRecord.m_PhoneNumber}");
+                Console.WriteLine($"Status: {vehicleRecord.Status}");
+            }
+            else
+            {
+                throw new ArgumentException($"No vehicle found with license number: {i_LicenseNumber}");
+            }
+        }
 
         public static void Main()
         {
@@ -377,6 +397,13 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             string fileName =
                 "C:\\Users\\orcoh\\source\\repos\\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\\Vehicles.db";
             garage.LoadVehiclesFromFile(fileName);  
+
+            Console.Write("Should load data from db?(y/n): ");
+            string loadFromDb = Console.ReadLine();
+            if (loadFromDb == "y")
+            {
+                garage.LoadVehiclesFromFile(fileName);
+            }
 
             Console.Write("Enter license plate to add or update: ");
             string licensePlate = Console.ReadLine();

@@ -130,9 +130,9 @@ namespace Ex03.GarageLogic
 
         public void fillTiresToMax()
         {
-            foreach(var wheel in Wheels)
+            foreach(Wheel wheel in Wheels)
             {
-                wheel.CurrentPressure = VARIABLE.MaxPressure;
+                wheel.CurrentPressure = wheel.MaxPressure;
             }
         }
 
@@ -172,7 +172,7 @@ namespace Ex03.GarageLogic
 	// Fuel-based vehicle
 	public abstract class FuelVehicle : Vehicle
 	{
-		private readonly eFuelType r_FuelType;
+		public eFuelType r_FuelType { get; set; }
 		private float m_CurrentFuelAmount;
 		private readonly float r_MaxFuelAmount;
 
@@ -375,13 +375,13 @@ namespace Ex03.GarageLogic
 	{
 		public eCarColor r_Color;
 		public int r_NumberOfDoors;
-		public eLicenseType r_LicenseType;
+        public eLicenseType r_LicenseType;
 		
 		public FuelCar(string i_LicenseNumber, string i_ModelName)
 			: base(i_ModelName, i_LicenseNumber)
-		{
-			
-		}
+        {
+            this.r_FuelType = eFuelType.Octan95;
+        }
 		public FuelCar(
 			string i_ModelName,
 			string i_LicenseNumber,
@@ -395,9 +395,9 @@ namespace Ex03.GarageLogic
 				i_WheelcurrentPressure, 32, eFuelType.Octan95, i_CurrentFuelAmount, 48f)
 		{
 			r_Color = i_Color;
-			if (i_NumberOfDoors < 2 || i_NumberOfDoors > 4)
+			if (i_NumberOfDoors < 2 || i_NumberOfDoors > 5)
 			{
-				throw new ArgumentException("Number of doors must be between 2 and 4.");
+				throw new ArgumentException("Number of doors must be between 2 and 5.");
 			}
 			r_NumberOfDoors = i_NumberOfDoors;
 		}
@@ -445,9 +445,9 @@ namespace Ex03.GarageLogic
 				i_WheelcurrentPressure, 32, i_RemainingBatteryHours, 4.8f)
 		{
 			r_Color = i_Color;
-			if (i_NumberOfDoors < 2 || i_NumberOfDoors > 4)
+			if (i_NumberOfDoors < 2 || i_NumberOfDoors > 5)
 			{
-				throw new ArgumentException("Number of doors must be between 2 and 4.");
+				throw new ArgumentException("Number of doors must be between 2 and 5.");
 			}
 			r_NumberOfDoors = i_NumberOfDoors;
 		}

@@ -10,4 +10,4 @@ Truck,64-970-38,Volvo-FH16,81,Hankook,26,Guy,052-1234568,true,18.5
 Truck,39-582-16,Scania-R450,44,Continental,25,Gil,052-1234569,false,22.4
 *****
 THE FORMAT IS:
-VehicleType, LicensePlate, ModelName, EnergyPercentage, TierModel, CurrAirPressure,  OwnerName, OwnerNamePhone, [SPECIFIC VEHICLE PROPERTIES]
+VehicleType, LicensePlate, ModelName, EnergyPercentage, TierModel, CurrAirPressure,  OwnerName, OwnerPhone, [SPECIFIC VEHICLE PROPERTIES]

@@ -499,13 +499,10 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             }
 
             VehicleRecords record = vehicles[i_licenseNumber];
-            Console.WriteLine($"Vehicle Details for {i_licenseNumber}:");
+            Console.WriteLine(record.m_Vehicle.PrintVehicleDetails());
             Console.WriteLine($"Owner Name: {record.m_NameOfOwner}");
             Console.WriteLine($"Phone Number: {record.m_PhoneNumber}");
             Console.WriteLine($"Status: {record.Status}");
-            Console.WriteLine($"Vehicle Type: {record.m_Vehicle.GetType().Name}");
-            Console.WriteLine($"Model Name: {record.m_Vehicle.ModelName}");
-            
         }
         
     }

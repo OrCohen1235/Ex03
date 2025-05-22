@@ -370,13 +370,74 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
         }
 
 
+        public void chargeElectricCar(string i_ModelNumber, float i_AmountToCharge)
+        {
+            if (!vehicles.ContainsKey(i_ModelNumber))
+            {
+                Console.WriteLine($"No vehicle found with model number: {i_ModelNumber}");
+                return;
+            }
 
+            ElectricCar carToCharge = vehicles[i_ModelNumber].m_Vehicle as ElectricCar;
+            if (carToCharge == null)
+            {
+                Console.WriteLine("The vehicle is not an electric car.");
+                return;
+            }
+
+            carToCharge.Charge(i_AmountToCharge);
+            Console.WriteLine($"Electric car charged by {i_AmountToCharge} hours.");
+        }
+        
+        public void RefuelFuelCar(string i_ModelNumber, float i_AmountToRefuel, eFuelType i_FuelType)
+        {
+            if (!vehicles.ContainsKey(i_ModelNumber))
+            {
+                Console.WriteLine($"No vehicle found with model number: {i_ModelNumber}");
+                return;
+            }
+
+            FuelCar carToRefuel = vehicles[i_ModelNumber].m_Vehicle as FuelCar;
+            if (carToRefuel == null)
+            {
+                Console.WriteLine("The vehicle is not a fuel car.");
+                return;
+            }
+
+            carToRefuel.Refuel(i_FuelType,i_AmountToRefuel);
+            Console.WriteLine($"Fuel car refueled by {i_AmountToRefuel} liters.");
+        }
+        
+        public void showVehiclesDetails(string i_licenseNumber)
+        {
+            if (!vehicles.ContainsKey(i_licenseNumber))
+            {
+                Console.WriteLine($"No vehicle found with license number: {i_licenseNumber}");
+                return;
+            }
+
+            VehicleRecords record = vehicles[i_licenseNumber];
+            Console.WriteLine($"Vehicle Details for {i_licenseNumber}:");
+            Console.WriteLine($"Owner Name: {record.m_NameOfOwner}");
+            Console.WriteLine($"Phone Number: {record.m_PhoneNumber}");
+            Console.WriteLine($"Status: {record.Status}");
+            Console.WriteLine($"Vehicle Type: {record.m_Vehicle.GetType().Name}");
+            Console.WriteLine($"Model Name: {record.m_Vehicle.ModelName}");
+        }
+       
         public static void Main()
         {
             GarageUI garage = new GarageUI();
             string fileName =
                 "C:\\Users\\orcoh\\source\\repos\\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\\B25 Ex03 OriCohen 207008590 AlonZylberberg 315853739\\Vehicles.db";
             garage.LoadVehiclesFromFile(fileName);  
+
+            Console.Write("Should load data from db?(y/n): ");
+            string loadFromDb = Console.ReadLine();
+            if (loadFromDb == "y")
+            {
+                garage.LoadVehiclesFromFile(fileName);
+            }
 
             Console.Write("Enter license plate to add or update: ");
             string licensePlate = Console.ReadLine();

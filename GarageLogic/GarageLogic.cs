@@ -496,31 +496,31 @@ namespace Ex03.GarageLogic
 			r_NumberOfDoors = i_NumberOfDoors;
 		}
 
-		public eCarColor Color
+		public eCarColor SetColor
 		{
 			get { return r_Color; }
-            set
-            {
-                r_Color = value;
-            }
-        }
+			set { r_Color = value; }
+		}
 
-		public int NumberOfDoors
+		public int SetNumberOfDoors
 		{
-			get { return r_NumberOfDoors; }
-            set
-            {
-                r_NumberOfDoors = value;
-            }
-        }
+			get
+			{
+				return r_NumberOfDoors;
+			}
+			set
+			{
+				r_NumberOfDoors = value;
+			}
+		}
 		
 		public override string PrintVehicleDetails()
 		{
 			return $"Vehicle Details for {LicenseNumber}:\n" +
 			       $"Vehicle Type: Electric Car\n" +
 			       $"Model Name: {ModelName}\n" +
-			       $"Color: {Color}\n" +
-			       $"Number of Doors: {NumberOfDoors}\n" +
+			       $"Color: {r_Color}\n" +
+			       $"Number of Doors: {r_NumberOfDoors}\n" +
 			       $"Remaining Battery: {RemainingBatteryHours} hours\n" +
 			       $"Max Battery: {MaxBatteryHours} hours\n" +
 			       $"Energy Percentage: {EnergyPercentage}%";

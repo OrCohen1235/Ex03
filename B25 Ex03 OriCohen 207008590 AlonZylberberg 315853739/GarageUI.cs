@@ -96,8 +96,8 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                                 int.TryParse(parts[9], out int elecDoors))
 
                             {
-                                electricCar.Color = elecColor;
-                                electricCar.NumberOfDoors = elecDoors;
+                                electricCar.SetColor = elecColor;
+                                electricCar.SetNumberOfDoors = elecDoors;
                             }
                             else
                             {
@@ -251,111 +251,306 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             return newVehicle;
         }
 
-
-        private void fillVehicleDetails(Vehicle i_Vehicle)
+        private string getTireModel()
         {
             Console.Write("Enter tire model: ");
             string tireModel = Console.ReadLine();
+            return tireModel;
+        }
+
+        private float getTireAirPressure()
+        {
 
             Console.Write("Enter current air pressure: ");
             if(!float.TryParse(Console.ReadLine(), out float airPressure))
             {
                 throw new FormatException("Invalid air pressure format.");
             }
-            
-            i_Vehicle.SetTiresInfo(airPressure,tireModel);
 
+            return airPressure;
+        }
+
+        private float getCurrentEnergyPercentage()
+        {
             Console.Write("Enter current energy percentage (0-100): ");
             if (!float.TryParse(Console.ReadLine(), out float energyPercentage) || energyPercentage < 0 || energyPercentage > 100)
             {
                 throw new ValueRangeException("Energy percentage must be between 0 and 100.");
             }
-            i_Vehicle.EnergyPercentage = energyPercentage;
+
+            return energyPercentage;
+        }
+
+        private eLicenseType getLicenseType()
+        {
+            Console.Write("Enter license type (A, A2, AB, B2): ");
+            if (!Enum.TryParse(Console.ReadLine(), ignoreCase: true, out eLicenseType licenseType))
+            {
+                throw new ArgumentException("Invalid license type.");
+            }
+            return licenseType;
+        }
+
+        private int getEngineCapacity()
+        {
+            Console.Write("Enter engine capacity (int): ");
+            if (!int.TryParse(Console.ReadLine(), out int engineCapacity))
+            {
+                throw new FormatException("Invalid engine capacity format.");
+            }
+
+            return engineCapacity;
+        }
+
+        private eCarColor getCarColor()
+        {
+            Console.Write("Enter car color (Yellow, Black, White, Silver): ");
+            if (!Enum.TryParse(Console.ReadLine(), ignoreCase: true, out eCarColor color))
+            {
+                throw new ArgumentException("Invalid car color.");
+            }
+            
+            return color;
+        }
+
+        private int getNumberOfDoors()
+        {
+            Console.Write("Enter number of doors (2-5): ");
+            if (!int.TryParse(Console.ReadLine(), out int numDoors) || numDoors < 2 || numDoors > 5)
+            {
+                throw new ValueRangeException("Number of doors must be between 2 and 5.");
+            }
+
+            return numDoors;
+        }
+
+        private bool getIsHazardous()
+        {
+            Console.Write("Does the truck carry hazardous materials? (true/false): ");
+            if (!bool.TryParse(Console.ReadLine(), out bool hasHazard))
+            {
+                throw new FormatException("Invalid boolean value.");
+            }
+            
+            return hasHazard;
+        }
+
+        private float getCargoVolume()
+        {
+            Console.Write("Enter cargo volume (float): ");
+            if (!float.TryParse(Console.ReadLine(), out float cargoVolume))
+            {
+                throw new FormatException("Invalid cargo volume format.");
+            }
+
+            return cargoVolume;
+        }
+        private void fillVehicleDetails(Vehicle i_Vehicle)
+        {
+            string tireModel = getTireModel();
+            float airPressure;
+            float energyPercentage;
+            float cargoVolume;
+            eLicenseType licenseType;
+            eCarColor color;
+            int engineCapacity;
+            int numDoors;
+            bool hasHazard;
+            
+            while (true)
+            {
+                try
+                {
+                    airPressure = getTireAirPressure();
+                    i_Vehicle.SetTiresInfo(airPressure,tireModel);
+                break;
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
+            
+
+            while (true)
+            {
+                try
+                {
+                    energyPercentage = getCurrentEnergyPercentage();
+                    i_Vehicle.EnergyPercentage = energyPercentage;
+                    break;
+                }
+                catch (ValueRangeException e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+            
 
             if (i_Vehicle is FuelMotorcycle fuelMotorcycle)
             {
-                Console.Write("Enter license type (A, A2, AB, B2): ");
-                if (!Enum.TryParse(Console.ReadLine(), ignoreCase: true, out eLicenseType licenseType))
+                while (true)
                 {
-                    throw new ArgumentException("Invalid license type.");
+                    try
+                    {
+                        licenseType = getLicenseType();
+                        fuelMotorcycle.LicenseType = licenseType;
+                        break;
+                    }
+                    catch (ArgumentException e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
 
-                Console.Write("Enter engine capacity (int): ");
-                if (!int.TryParse(Console.ReadLine(), out int engineCapacity))
+                while (true)
                 {
-                    throw new FormatException("Invalid engine capacity format.");
+                    try
+                    {
+                        engineCapacity = getEngineCapacity();
+                        fuelMotorcycle.EngineCapacity = engineCapacity;
+                        break;
+                    }
+                    catch (FormatException e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
-
-                fuelMotorcycle.LicenseType = licenseType;
-                fuelMotorcycle.EngineCapacity = engineCapacity;
             }
             else if (i_Vehicle is ElectricMotorcycle elMotorcycle)
             {
-                Console.Write("Enter license type (A, A2, AB, B2): ");
-                if (!Enum.TryParse(Console.ReadLine(), ignoreCase: true, out eLicenseType licenseType))
+                while (true)
                 {
-                    throw new ArgumentException("Invalid license type.");
+                    try
+                    {
+                        licenseType = getLicenseType();
+                        elMotorcycle.LicenseType = licenseType;
+                        break;
+                    }
+                    catch (ArgumentException e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
 
-                Console.Write("Enter engine capacity (int): ");
-                if (!int.TryParse(Console.ReadLine(), out int engineCapacity))
+                while (true)
                 {
-                    throw new FormatException("Invalid engine capacity format.");
+                    try
+                    {
+                        engineCapacity = getEngineCapacity();
+                        elMotorcycle.EngineCapacity = engineCapacity;
+                        break;
+                    }
+                    catch (FormatException e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
-
-                elMotorcycle.LicenseType = licenseType;
-                elMotorcycle.EngineCapacity = engineCapacity;
             }
             else if (i_Vehicle is FuelCar fuelCar)
             {
-                Console.Write("Enter car color (Yellow, Black, White, Silver): ");
-                if (!Enum.TryParse(Console.ReadLine(), ignoreCase: true, out eCarColor color))
+                while (true)
                 {
-                    throw new ArgumentException("Invalid car color.");
+                    try
+                    {
+                        color = getCarColor();
+                        fuelCar.SetColor = color;
+                        break;
+                    }
+                    catch (ArgumentException e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
 
-                Console.Write("Enter number of doors (2-5): ");
-                if (!int.TryParse(Console.ReadLine(), out int numDoors) || numDoors < 2 || numDoors > 5)
-                {
-                    throw new ValueRangeException("Number of doors must be between 2 and 5.");
-                }
 
-                fuelCar.SetColor = color;
-                fuelCar.SetNumberOfDoors = numDoors;
+                while (true)
+                {
+                    try
+                    {
+                        numDoors = getNumberOfDoors();
+                        fuelCar.SetNumberOfDoors = numDoors;
+                        break;
+                    }
+                    catch (ValueRangeException e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                }
             }
             else if (i_Vehicle is ElectricCar elCar)
             {
-                Console.Write("Enter car color (Yellow, Black, White, Silver): ");
-                if (!Enum.TryParse(Console.ReadLine(), ignoreCase: true, out eCarColor color))
+                while (true)
                 {
-                    throw new ArgumentException("Invalid car color.");
+                    try
+                    {
+                        color = getCarColor();
+                        elCar.SetColor = color;
+                        break;
+                    }
+                    catch (ArgumentException e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
 
-                Console.Write("Enter number of doors (2-5): ");
-                if (!int.TryParse(Console.ReadLine(), out int numDoors) || numDoors < 2 || numDoors > 5)
-                {
-                    throw new ValueRangeException("Number of doors must be between 2 and 5.");
-                }
 
-                elCar.Color = color;
-                elCar.NumberOfDoors = numDoors;
+                while (true)
+                {
+                    try
+                    {
+                        numDoors = getNumberOfDoors();
+                        elCar.SetNumberOfDoors = numDoors;
+                        break;
+                    }
+                    catch (ValueRangeException e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                }
             }
+            
             else if (i_Vehicle is Truck truck)
             {
-                Console.Write("Does the truck carry hazardous materials? (true/false): ");
-                if (!bool.TryParse(Console.ReadLine(), out bool hasHazard))
+                while (true)
                 {
-                    throw new FormatException("Invalid boolean value.");
+                    try
+                    {
+                        hasHazard = getIsHazardous();
+                        truck.CarriesHazardousMaterials = hasHazard;
+                        break;
+
+                    }
+                    catch (FormatException e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
 
-                Console.Write("Enter cargo volume (float): ");
-                if (!float.TryParse(Console.ReadLine(), out float cargoVolume))
+                while (true)
                 {
-                    throw new FormatException("Invalid cargo volume format.");
+                    try
+                    {
+                        cargoVolume = getCargoVolume();
+                        truck.CargoVolume = cargoVolume;
+                        break;
+                    }
+                    catch (FormatException e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
-
-                truck.CarriesHazardousMaterials = hasHazard;
-                truck.CargoVolume = cargoVolume;
             }
         }
 

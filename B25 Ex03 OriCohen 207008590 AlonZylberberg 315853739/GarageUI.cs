@@ -237,8 +237,8 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             {
                 throw new FormatException("Invalid air pressure format.");
             }
-
-
+            
+            i_Vehicle.SetTiresInfo(airPressure,tireModel);
 
             Console.Write("Enter current energy percentage (0-100): ");
             if (!float.TryParse(Console.ReadLine(), out float energyPercentage) || energyPercentage < 0 || energyPercentage > 100)

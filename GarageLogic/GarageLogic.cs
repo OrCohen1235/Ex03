@@ -90,7 +90,7 @@ namespace Ex03.GarageLogic
         private readonly string r_ModelName;
 		private readonly string r_LicenseNumber;
 		private float m_EnergyPercentage;
-		private readonly List<Wheel> r_Wheels;
+		private List<Wheel> r_Wheels;
 		
 		protected Vehicle(string i_ModelName, string i_LicenseNumber)
 		{
@@ -112,13 +112,18 @@ namespace Ex03.GarageLogic
 			r_ModelName = i_ModelName;
 			r_LicenseNumber = i_LicenseNumber;
 			m_EnergyPercentage = i_EnergyPercentage;
+			CreateWheels(i_WheelManufacturer,i_AmountOfWheels,i_WheelcurrentPressure,i_WheelmaxPressure);
+		}
+
+		public void CreateWheels(string i_WheelManufacturer, int i_AmountOfWheels, float i_WheelcurrentPressure,
+			float i_WheelmaxPressure)
+		{
 			r_Wheels = new List<Wheel>(i_AmountOfWheels);
 			for (int i = 0; i < i_AmountOfWheels; i++)
 			{
 				r_Wheels.Add(new Wheel(i_WheelManufacturer, i_WheelcurrentPressure, i_WheelmaxPressure));
 			}
 		}
-
         public void SetTiresInfo(float i_airPressure,string r_Manufacturer)
         {
             foreach(Wheel wheel in r_Wheels )
@@ -174,7 +179,7 @@ namespace Ex03.GarageLogic
 	{
 		public eFuelType r_FuelType { get; set; }
 		private float m_CurrentFuelAmount;
-		private readonly float r_MaxFuelAmount;
+		public float r_MaxFuelAmount { get; set; }
 
 		protected FuelVehicle(string i_ModelName, string i_LicenseNumber)
 			: base(i_ModelName, i_LicenseNumber)
@@ -210,12 +215,7 @@ namespace Ex03.GarageLogic
 		{
 			get { return m_CurrentFuelAmount; }
 		}
-
-		public float MaxFuelAmount
-		{
-			get { return r_MaxFuelAmount; }
-		}
-
+		
 		public void Refuel(eFuelType i_FuelType, float i_LitersToAdd)
 		{
 			if (i_FuelType != r_FuelType)
@@ -239,12 +239,12 @@ namespace Ex03.GarageLogic
 	public abstract class ElectricVehicle : Vehicle
 	{
 		private float m_RemainingBatteryHours;	
-		private readonly float r_MaxBatteryHours;
+		public float r_MaxBatteryHours { get; set; }
 
 		protected ElectricVehicle(string i_ModelName, string i_LicenseNumber)
 			: base(i_ModelName, i_LicenseNumber)
 		{
-			
+
 		}
 		
 		protected ElectricVehicle(
@@ -298,7 +298,9 @@ namespace Ex03.GarageLogic
 		public FuelMotorcycle(string i_LicenseNumber, string i_ModelName)
 			: base(i_ModelName, i_LicenseNumber)
 		{
-			
+			this.r_FuelType = eFuelType.Octan98;
+			this.r_MaxFuelAmount = 5.8f;
+			this.CreateWheels("",2,0,30);
 		}
 		public FuelMotorcycle(
 			string i_ModelName,
@@ -339,7 +341,8 @@ namespace Ex03.GarageLogic
 		public ElectricMotorcycle(string i_LicenseNumber, string i_ModelName)
 			: base(i_ModelName, i_LicenseNumber)
 		{
-			
+			this.CreateWheels("", 2, 0, 30);
+			this.r_MaxBatteryHours = 3.2f;
 		}
 		public ElectricMotorcycle(
 			string i_ModelName,
@@ -381,6 +384,8 @@ namespace Ex03.GarageLogic
 			: base(i_ModelName, i_LicenseNumber)
         {
             this.r_FuelType = eFuelType.Octan95;
+            this.r_MaxFuelAmount = 48f;
+            this.CreateWheels("", 5, 0, 32);
         }
 		public FuelCar(
 			string i_ModelName,
@@ -429,7 +434,8 @@ namespace Ex03.GarageLogic
 		public ElectricCar(string i_LicenseNumber, string i_ModelName)
 			: base(i_ModelName, i_LicenseNumber)
 		{
-			
+			this.CreateWheels("", 5, 0, 32);
+			this.r_MaxBatteryHours = 4.8f;
 		}
 		
 		public ElectricCar(
@@ -481,6 +487,9 @@ namespace Ex03.GarageLogic
         public Truck(string i_LicenseNumber, string i_ModelName)
             : base(i_ModelName, i_LicenseNumber)
         {
+            this.r_FuelType = eFuelType.Soler;
+            this.r_MaxFuelAmount = 135f;
+            this.CreateWheels("", 12, 0, 27);
         }
 
         public Truck(

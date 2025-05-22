@@ -105,7 +105,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
         private void refuelFuelVehicle()
         {
             string license = getLicenseFromUser();
-            Console.Write("Enter fuel type (e.g., Soler, Octan95): ");
+            Console.Write("Enter fuel type (e.g., Soler, Octan95,Octan96,Octan98): ");
             string fuelInput = Console.ReadLine();
 
             if (!Enum.TryParse(fuelInput, true, out eFuelType fuelType))
@@ -115,7 +115,9 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             }
 
             float amount = getFloatFromUser("Enter amount to refuel: ");
-            r_GarageManager.RefuelFuelCar(license, amount, fuelType);
+            r_GarageManager.RefuelFuelVehicle(license, amount, fuelType);
+            
+
         }
 
         private void chargeElectricVehicle()

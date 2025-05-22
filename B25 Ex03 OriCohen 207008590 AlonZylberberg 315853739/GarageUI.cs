@@ -35,12 +35,13 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
         {
             if (!File.Exists(filePath))
             {
-                throw new FileNotFoundException("The specified file was not found.");
+                throw new FileNotFoundException("The database file was not found.", filePath);
             }
 
-            foreach (string line in File.ReadLines(filePath))
+            string[] lines = File.ReadAllLines(filePath);
+            foreach (string line in lines)
             {
-                if (line.Trim() == "*****")
+                if (line == "*****")
                 {
                     break;
                 }
@@ -48,82 +49,105 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 try
                 {
                     string[] parts = line.Split(',');
-                    string vehicleType = parts[0].Trim();
 
-                    Vehicle vehicle = null;
-                    string licenseNumber = parts[1].Trim();
-                    string modelName = parts[2].Trim();
+                    string vehicleType = parts[0];
+                    string licenseNumber = parts[1];
+                    string modelName = parts[2];
 
-                    if (!float.TryParse(parts[3].Trim(), out float energyPercentage))
+                    if (!float.TryParse(parts[3], out float energyPercentage))
                     {
-                        throw new FormatException("Invalid energy percentage format.");
+                        Console.WriteLine($"Invalid energy percentage: {parts[3]}");
+                        continue;
                     }
 
-                    string tireModel = parts[4].Trim();
+                    string tireModel = parts[4];
 
-                    if (!float.TryParse(parts[5].Trim(), out float currAirPressure))
+                    if (!float.TryParse(parts[5], out float currAirPressure))
                     {
-                        throw new FormatException("Invalid air pressure format.");
+                        Console.WriteLine($"Invalid air pressure: {parts[5]}");
+                        continue;
                     }
 
-                    string ownerName = parts[6].Trim();
-                    string ownerPhone = parts[7].Trim();
+                    string ownerName = parts[6];
+                    string ownerPhone = parts[7];
 
-                    switch (vehicleType)
+                    Vehicle vehicle = VehicleCreator.CreateVehicle(vehicleType, licenseNumber, modelName);
+                    vehicle.EnergyPercentage = energyPercentage;
+                    vehicle.SetTiresInfo(currAirPressure, tireModel);
+
+                    switch (vehicle)
                     {
-                        case "FuelMotorcycle":
-                            if (!Enum.TryParse(parts[8].Trim(), true, out eLicenseType licenseTypeFM) ||
-                                !int.TryParse(parts[9].Trim(), out int engineCapacityFM))
+                        case FuelCar fuelCar:
+                            if (Enum.TryParse(parts[8], out eCarColor color) &&
+                                int.TryParse(parts[9], out int doors))
                             {
-                                throw new FormatException("Invalid FuelMotorcycle data.");
+                                fuelCar.SetColor = color;
+                                fuelCar.SetNumberOfDoors = doors;
                             }
-
-                            vehicle = new FuelMotorcycle(modelName, licenseNumber, energyPercentage, tireModel, currAirPressure,
-                                (energyPercentage / 100f) * 5.8f, licenseTypeFM, engineCapacityFM);
+                            else
+                            {
+                                Console.WriteLine($"Invalid data for FuelCar: {line}");
+                                continue;
+                            }
                             break;
 
-                        case "ElectricMotorcycle":
-                            if (!Enum.TryParse(parts[8].Trim(), true, out eLicenseType licenseTypeEM) ||
-                                !int.TryParse(parts[9].Trim(), out int engineCapacityEM))
-                            {
-                                throw new FormatException("Invalid ElectricMotorcycle data.");
-                            }
+                        case ElectricCar electricCar:
+                            if (Enum.TryParse(parts[8], out eCarColor elecColor) &&
+                                int.TryParse(parts[9], out int elecDoors))
 
-                            vehicle = new ElectricMotorcycle(modelName, licenseNumber, energyPercentage, tireModel, currAirPressure,
-                                (energyPercentage / 100f) * 3.2f, licenseTypeEM, engineCapacityEM);
+                            {
+                                electricCar.Color = elecColor;
+                                electricCar.NumberOfDoors = elecDoors;
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Invalid data for ElectricCar: {line}");
+                                continue;
+                            }
                             break;
 
-                        case "FuelCar":
-                            if (!Enum.TryParse(parts[8].Trim(), true, out eCarColor colorFC) ||
-                                !int.TryParse(parts[9].Trim(), out int numDoorsFC))
-                            {
-                                throw new FormatException("Invalid FuelCar data.");
-                            }
+                        case FuelMotorcycle fuelMoto:
+                            if (Enum.TryParse(parts[8], out eLicenseType fuelLicType) &&
+                                int.TryParse(parts[9], out int engineCap))
 
-                            vehicle = new FuelCar(modelName, licenseNumber, energyPercentage, tireModel, currAirPressure,
-                                (energyPercentage / 100f) * 48f, colorFC, numDoorsFC);
+                            {
+                                fuelMoto.LicenseType = fuelLicType;
+                                fuelMoto.EngineCapacity = engineCap;
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Invalid data for FuelMotorcycle: {line}");
+                                continue;
+                            }
                             break;
 
-                        case "ElectricCar":
-                            if (!Enum.TryParse(parts[8].Trim(), true, out eCarColor colorEC) ||
-                                !int.TryParse(parts[9].Trim(), out int numDoorsEC))
-                            {
-                                throw new FormatException("Invalid ElectricCar data.");
-                            }
+                        case ElectricMotorcycle elecMoto:
+                            if (Enum.TryParse(parts[8], out eLicenseType elecLicType) &&
+                                int.TryParse(parts[9], out int elecEngineCap))
 
-                            vehicle = new ElectricCar(modelName, licenseNumber, energyPercentage, tireModel, currAirPressure,
-                                (energyPercentage / 100f) * 4.8f, colorEC, numDoorsEC);
+                            {
+                                elecMoto.LicenseType = elecLicType;
+                                elecMoto.EngineCapacity = elecEngineCap;
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Invalid data for ElectricMotorcycle: {line}");
+                                continue;
+                            }
                             break;
 
-                        case "Truck":
-                            if (!bool.TryParse(parts[8].Trim(), out bool hasHazard) ||
-                                !float.TryParse(parts[9].Trim(), out float cargoVolume))
+                        case Truck truck:
+                            if (bool.TryParse(parts[8], out bool isHazardous)&& 
+                                float.TryParse(parts[9], out float cargoVolume))
                             {
-                                throw new FormatException("Invalid Truck data.");
+                                truck.CargoVolume = cargoVolume;
+                                truck.CarriesHazardousMaterials = isHazardous;
                             }
-
-                            vehicle = new Truck(modelName, licenseNumber, energyPercentage, tireModel, currAirPressure,
-                                (energyPercentage / 100f) * 135f, hasHazard, cargoVolume);
+                            else
+                            {
+                                Console.WriteLine($"Invalid data for Truck: {line}");
+                                continue;
+                            }
                             break;
 
                         default:
@@ -145,8 +169,9 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                     Console.WriteLine($"Details: {ex.Message}");
                 }
             }
-            
         }
+
+
 
         public void AddOrUpdateVehicle(string i_LicenseNumber)
         {
@@ -446,7 +471,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             
         }
         
-        public void RefuelFuelCar(string i_ModelNumber, float i_AmountToRefuel, eFuelType i_FuelType)
+        public void RefuelFuelVehicle(string i_ModelNumber, float i_AmountToRefuel, eFuelType i_FuelType)
         {
             if (!vehicles.ContainsKey(i_ModelNumber))
             {
@@ -454,15 +479,15 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 return;
             }
 
-            FuelCar carToRefuel = vehicles[i_ModelNumber].m_Vehicle as FuelCar;
-            if (carToRefuel == null)
+            FuelVehicle vehicleToRefuel = vehicles[i_ModelNumber].m_Vehicle as FuelVehicle;
+            if (vehicleToRefuel == null)
             {
-                Console.WriteLine("The vehicle is not a fuel car.");
+                Console.WriteLine("The vehicle is not a fuel Vehicle.");
                 return;
             }
+            vehicleToRefuel.Refuel(i_FuelType,i_AmountToRefuel);
+            Console.WriteLine($"Fuel Vehicle refueled by {i_AmountToRefuel} liters.");
 
-            carToRefuel.Refuel(i_FuelType,i_AmountToRefuel);
-            Console.WriteLine($"Fuel car refueled by {i_AmountToRefuel} liters.");
         }
         
         public void showVehiclesDetails(string i_licenseNumber)
@@ -480,6 +505,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             Console.WriteLine($"Status: {record.Status}");
             Console.WriteLine($"Vehicle Type: {record.m_Vehicle.GetType().Name}");
             Console.WriteLine($"Model Name: {record.m_Vehicle.ModelName}");
+            
         }
         
     }

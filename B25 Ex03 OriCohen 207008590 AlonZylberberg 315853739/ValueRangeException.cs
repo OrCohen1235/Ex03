@@ -20,3 +20,4 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
         public ArgumentException(string message) : base(message) {}
     }
 }
+

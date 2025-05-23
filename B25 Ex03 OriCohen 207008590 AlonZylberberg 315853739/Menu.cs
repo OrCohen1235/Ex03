@@ -20,7 +20,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             while (!exit)
             {
                 Console.Clear();
-                printMenu();
+                PrintMenu();
                 string choice = Console.ReadLine();
 
                 switch (choice)
@@ -29,25 +29,25 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                         r_GarageManager.LoadVehiclesFromDatabase(r_DatabaseName);
                         break;
                     case "2":
-                        insertNewVehicle();
+                        InsertNewVehicle();
                         break;
                     case "3":
                         r_GarageManager.DisplayAllVehicles();
                         break;
                     case "4":
-                        changeVehicleStatus();
+                        ChangeVehicleStatus();
                         break;
                     case "5":
-                        inflateVehicleTires();
+                        InflateVehicleTires();
                         break;
                     case "6":
-                        refuelFuelVehicle();
+                        RefuelFuelVehicle();
                         break;
                     case "7":
-                        chargeElectricVehicle();
+                        ChargeElectricVehicle();
                         break;
                     case "8":
-                        displayVehicleDetails();
+                        DisplayVehicleDetails();
                         break;
                     case "0":
                         exit = true;
@@ -67,7 +67,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             }
         }
 
-        private void printMenu()
+        private void PrintMenu()
         {
             Console.WriteLine("Garage Management System - Main Menu");
             Console.WriteLine("1. Load vehicle data from 'Vehicles.db'");
@@ -82,78 +82,79 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             Console.Write("Your choice: ");
         }
 
-        private void insertNewVehicle()
+        private void InsertNewVehicle()
         {
-            string license = getLicenseFromUser();
+            string license = GetLicenseFromUser();
             r_GarageManager.AddOrUpdateVehicle(license);
         }
 
-        private void changeVehicleStatus()
+        private void ChangeVehicleStatus()
         {
-            string license = getLicenseFromUser();
+            string license = GetLicenseFromUser();
             Console.Write("Enter new status: ");
             string status = Console.ReadLine();
             r_GarageManager.ChangeVehicleStatus(license, status);
         }
 
-        private void inflateVehicleTires()
+        private void InflateVehicleTires()
         {
-            string license = getLicenseFromUser();
+            string license = GetLicenseFromUser();
             r_GarageManager.InflateTiresToMax(license);
+            Console.WriteLine("Tires inflated to maximum.");
         }
 
-        private void refuelFuelVehicle()
+        private void RefuelFuelVehicle()
         {
-            string license = getLicenseFromUser();
+            string license = GetLicenseFromUser();
 
             while (true)
             {
                 Console.Write("Enter fuel type (e.g., Soler, Octan95,Octan96,Octan98): ");
                 string fuelInput = Console.ReadLine();
 
-                if(!Enum.TryParse(fuelInput, true, out eFuelType fuelType))
+                if (!Enum.TryParse(fuelInput, true, out eFuelType fuelType))
                 {
                     Console.WriteLine("Invalid fuel type.");
                     return;
                 }
 
-                float amount = getFloatFromUser("Enter amount to refuel: ");
+                float amount = GetFloatFromUser("Enter amount to refuel: ");
                 try
                 {
                     r_GarageManager.RefuelFuelVehicle(license, amount, fuelType);
                     break;
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
                 }
             }
         }
 
-        private void chargeElectricVehicle()
+        private void ChargeElectricVehicle()
         {
-            string license = getLicenseFromUser();
-            float hours = getFloatFromUser("Enter amount of hours to charge: ");
+            string license = GetLicenseFromUser();
+            float hours = GetFloatFromUser("Enter amount of hours to charge: ");
             r_GarageManager.ChargeElectricVehicle(license, hours);
         }
 
-        private void displayVehicleDetails()
+        private void DisplayVehicleDetails()
         {
-            string license = getLicenseFromUser();
+            string license = GetLicenseFromUser();
             r_GarageManager.ShowVehiclesDetails(license);
         }
 
-        private string getLicenseFromUser()
+        private string GetLicenseFromUser()
         {
             Console.Write("Enter vehicle license number: ");
             return Console.ReadLine();
         }
 
-        private float getFloatFromUser(string prompt)
+        private float GetFloatFromUser(string i_Prompt)
         {
             while (true)
             {
-                Console.Write(prompt);
+                Console.Write(i_Prompt);
                 string input = Console.ReadLine();
 
                 if (float.TryParse(input, out float result))

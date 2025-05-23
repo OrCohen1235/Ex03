@@ -172,6 +172,7 @@ namespace Ex03.GarageLogic
 		{
 			get { return r_Wheels; }
 		}
+		public abstract string PrintVehicleDetails();
 	}
 
 	// Fuel-based vehicle
@@ -330,6 +331,18 @@ namespace Ex03.GarageLogic
 			set { r_EngineCapacity = value; }
 		}
 		
+		public override string PrintVehicleDetails()
+		{
+			return $"Vehicle Details for {LicenseNumber}:\n" +
+			       $"Vehicle Type: Fuel Motorcycle\n" +
+			       $"Model Name: {ModelName}\n" +
+			       $"License Type: {LicenseType}\n" +
+			       $"Engine Capacity: {EngineCapacity}cc\n" +
+			       $"Current Fuel Amount: {CurrentFuelAmount}\n" +
+			       $"Max Fuel Amount: {r_MaxFuelAmount}\n" +
+			       $"Fuel Type: {FuelType}\n" +
+			       $"Energy Percentage: {EnergyPercentage}%";
+		}
 	}
 
 	// Electric motorcycle
@@ -370,6 +383,18 @@ namespace Ex03.GarageLogic
 		{
 			get { return r_EngineCapacity; }
 			set { r_EngineCapacity = value; }
+		}
+		
+		public override string PrintVehicleDetails()
+		{
+			return $"Vehicle Details for {LicenseNumber}:\n" +
+			       $"Vehicle Type: Electric Motorcycle\n" +
+			       $"Model Name: {ModelName}\n" +
+			       $"License Type: {LicenseType}\n" +
+			       $"Engine Capacity: {EngineCapacity}cc\n" +
+			       $"Remaining Battery: {RemainingBatteryHours} hours\n" +
+			       $"Max Battery: {MaxBatteryHours} hours\n" +
+			       $"Energy Percentage: {EnergyPercentage}%";
 		}
 	}
 
@@ -424,6 +449,19 @@ namespace Ex03.GarageLogic
                 r_NumberOfDoors = value;
             }
         }
+        
+        public override string PrintVehicleDetails()
+        {
+	        return $"Vehicle Details for {LicenseNumber}:\n" +
+	               $"Vehicle Type: Fuel Car\n" +
+	               $"Model Name: {ModelName}\n" +
+	               $"Color: {r_Color}\n" +
+	               $"Number of Doors: {r_NumberOfDoors}\n" +
+	               $"Current Fuel Amount: {CurrentFuelAmount}\n" +
+	               $"Max Fuel Amount: {r_MaxFuelAmount}\n" +
+	               $"Fuel Type: {FuelType}\n" +
+	               $"Energy Percentage: {EnergyPercentage}%";
+        }
 	}
 	
 	public class ElectricCar : ElectricVehicle
@@ -458,23 +496,35 @@ namespace Ex03.GarageLogic
 			r_NumberOfDoors = i_NumberOfDoors;
 		}
 
-		public eCarColor Color
+		public eCarColor SetColor
 		{
 			get { return r_Color; }
-            set
-            {
-                r_Color = value;
-            }
-        }
+			set { r_Color = value; }
+		}
 
-		public int NumberOfDoors
+		public int SetNumberOfDoors
 		{
-			get { return r_NumberOfDoors; }
-            set
-            {
-                r_NumberOfDoors = value;
-            }
-        }
+			get
+			{
+				return r_NumberOfDoors;
+			}
+			set
+			{
+				r_NumberOfDoors = value;
+			}
+		}
+		
+		public override string PrintVehicleDetails()
+		{
+			return $"Vehicle Details for {LicenseNumber}:\n" +
+			       $"Vehicle Type: Electric Car\n" +
+			       $"Model Name: {ModelName}\n" +
+			       $"Color: {r_Color}\n" +
+			       $"Number of Doors: {r_NumberOfDoors}\n" +
+			       $"Remaining Battery: {RemainingBatteryHours} hours\n" +
+			       $"Max Battery: {MaxBatteryHours} hours\n" +
+			       $"Energy Percentage: {EnergyPercentage}%";
+		}
 	}
 
 
@@ -507,7 +557,18 @@ namespace Ex03.GarageLogic
             CarriesHazardousMaterials = i_CarriesHazardousMaterials;
             CargoVolume = i_CargoVolume;
         }
+        
+        public override string PrintVehicleDetails()
+        {
+	        return $"Vehicle Details for {LicenseNumber}:\n" +
+	               $"Vehicle Type: Truck\n" +
+	               $"Model Name: {ModelName}\n" +
+	               $"Carries Hazardous Materials: {CarriesHazardousMaterials}\n" +
+	               $"Cargo Volume: {CargoVolume}\n" +
+	               $"Current Fuel Amount: {CurrentFuelAmount}\n" +
+	               $"Max Fuel Amount: {r_MaxFuelAmount}\n" +
+	               $"Fuel Type: {FuelType}\n" +
+	               $"Energy Percentage: {EnergyPercentage}%";
+        }
     }
-
-
 }

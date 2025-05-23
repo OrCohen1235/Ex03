@@ -5,16 +5,16 @@ using Ex03.GarageLogic;
 
 namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
 {
-    public class userInput
+    public class UserInput
     {
-        public string getTireModel()
+        public string GetTireModel()
         {
             Console.Write("Enter tire model: ");
             string tireModel = Console.ReadLine();
             return tireModel;
         }
 
-        public float getTireAirPressure()
+        public float GetTireAirPressure()
         {
             Console.Write("Enter current air pressure: ");
             if (!float.TryParse(Console.ReadLine(), out float airPressure))
@@ -25,7 +25,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             return airPressure;
         }
 
-        public float getCurrentEnergyPercentage()
+        public float GetCurrentEnergyPercentage()
         {
             Console.Write("Enter current energy percentage (0-100): ");
             if (!float.TryParse(Console.ReadLine(), out float energyPercentage) || energyPercentage < 0 ||
@@ -37,7 +37,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             return energyPercentage;
         }
 
-        public eLicenseType getLicenseType()
+        public eLicenseType GetLicenseType()
         {
             Console.Write("Enter license type (A, A2, AB, B2): ");
             if (!Enum.TryParse(Console.ReadLine(), ignoreCase: true, out eLicenseType licenseType))
@@ -48,7 +48,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             return licenseType;
         }
 
-        public int getEngineCapacity()
+        public int GetEngineCapacity()
         {
             Console.Write("Enter engine capacity (int): ");
             if (!int.TryParse(Console.ReadLine(), out int engineCapacity))
@@ -59,7 +59,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             return engineCapacity;
         }
 
-        public eCarColor getCarColor()
+        public eCarColor GetCarColor()
         {
             string[] colorOptions = Enum.GetNames(typeof(eCarColor));
             Console.Write($"Enter car color ({string.Join(", ", colorOptions)}): ");
@@ -75,7 +75,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             return color;
         }
 
-        public int getNumberOfDoors()
+        public int GetNumberOfDoors()
         {
             Console.Write("Enter number of doors (2-5): ");
             if (!int.TryParse(Console.ReadLine(), out int numDoors) || numDoors < 2 || numDoors > 5)
@@ -86,7 +86,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             return numDoors;
         }
 
-        public bool getIsHazardous()
+        public bool GetIsHazardous()
         {
             Console.Write("Does the truck carry hazardous materials? (true/false): ");
             if (!bool.TryParse(Console.ReadLine(), out bool hasHazard))
@@ -97,7 +97,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             return hasHazard;
         }
 
-        public float getCargoVolume()
+        public float GetCargoVolume()
         {
             Console.Write("Enter cargo volume (float): ");
             if (!float.TryParse(Console.ReadLine(), out float cargoVolume))
@@ -108,14 +108,14 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             return cargoVolume;
         }
 
-        public string getOwnerName()
+        public string GetOwnerName()
         {
             Console.Write("Enter owner name: ");
             string ownerName = Console.ReadLine();
             return ownerName;
         }
 
-        public string getOwnerPhone()
+        public string GetOwnerPhone()
         {
             Console.Write("Please enter your phone number: ");
             string ownerPhone = Console.ReadLine();
@@ -128,7 +128,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             return ownerPhone;
         }
 
-        public string getvehicleType()
+        public string GetVehicleType()
         {
             string selectedType;
             while (true)
@@ -146,14 +146,14 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             return selectedType;
         }
 
-        public string getVeicleModelName()
+        public string GetVehicleModelName()
         {
             Console.Write("Please enter the vehicle model name: ");
             string modelName = Console.ReadLine();
             return modelName;
         }
 
-        public bool getIfUserWatchOptions()
+        public bool GetIfUserWatchOptions()
         {
             Console.WriteLine("Would  you like to choose what status vehicles do you want to see? (Y/N)");
             string watchOptionsOrNot = Console.ReadLine();

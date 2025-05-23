@@ -5,7 +5,7 @@ using Ex03.GarageLogic;
 
 namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
 {
-    public class loadDataFromDb
+    public class LoadDataFromDb
     {
         public Dictionary<string, VehicleRecords> LoadVehiclesFromDatabase(string filePath)
         {
@@ -59,8 +59,8 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                             if (Enum.TryParse(parts[8], out eCarColor color) &&
                                 int.TryParse(parts[9], out int doors))
                             {
-                                fuelCar.SetColor = color;
-                                fuelCar.SetNumberOfDoors = doors;
+                                fuelCar.Color = color;
+                                fuelCar.NumberOfDoors = doors;
                             }
                             else
                             {
@@ -73,10 +73,9 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                         case ElectricCar electricCar:
                             if (Enum.TryParse(parts[8], out eCarColor elecColor) &&
                                 int.TryParse(parts[9], out int elecDoors))
-
                             {
-                                electricCar.SetColor = elecColor;
-                                electricCar.SetNumberOfDoors = elecDoors;
+                                electricCar.Color = elecColor;
+                                electricCar.NumberOfDoors = elecDoors;
                             }
                             else
                             {
@@ -89,7 +88,6 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                         case FuelMotorcycle fuelMoto:
                             if (Enum.TryParse(parts[8], out eLicenseType fuelLicType) &&
                                 int.TryParse(parts[9], out int engineCap))
-
                             {
                                 fuelMoto.LicenseType = fuelLicType;
                                 fuelMoto.EngineCapacity = engineCap;
@@ -105,7 +103,6 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                         case ElectricMotorcycle elecMoto:
                             if (Enum.TryParse(parts[8], out eLicenseType elecLicType) &&
                                 int.TryParse(parts[9], out int elecEngineCap))
-
                             {
                                 elecMoto.LicenseType = elecLicType;
                                 elecMoto.EngineCapacity = elecEngineCap;

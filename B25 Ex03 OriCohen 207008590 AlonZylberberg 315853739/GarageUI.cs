@@ -7,22 +7,22 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
 {
     public class GarageUI
     {
-        private Dictionary<string, VehicleRecords> vehicles;
-        private loadDataFromDb loadDataFromDb;
-        private userInput getUserInput;
+        private Dictionary<string, VehicleRecords> m_Vehicles;
+        private LoadDataFromDb m_LoadDataFromDb;
+        private UserInput m_UserInput;
 
         public GarageUI()
         {
-            vehicles = new Dictionary<string, VehicleRecords>();
-            loadDataFromDb = new loadDataFromDb();
-            getUserInput = new userInput();
+            m_Vehicles = new Dictionary<string, VehicleRecords>();
+            m_LoadDataFromDb = new LoadDataFromDb();
+            m_UserInput = new UserInput();
         }
 
         public void LoadVehiclesFromDatabase(string filePath)
         {
             try
             {
-                vehicles = loadDataFromDb.LoadVehiclesFromDatabase(filePath);
+                m_Vehicles = m_LoadDataFromDb.LoadVehiclesFromDatabase(filePath);
                 Console.WriteLine("Vehicles loaded successfully from the database");
             }
             catch (FileNotFoundException e)
@@ -33,9 +33,9 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
 
         public void AddOrUpdateVehicle(string i_LicenseNumber)
         {
-            if (vehicles.ContainsKey(i_LicenseNumber))
+            if (m_Vehicles.ContainsKey(i_LicenseNumber))
             {
-                VehicleRecords record = vehicles[i_LicenseNumber];
+                VehicleRecords record = m_Vehicles[i_LicenseNumber];
                 Console.WriteLine("The vehicle is already in the garage. Status set to 'In Repair'.");
                 record.Status = VehicleRecords.eVehicleStatus.InRepair;
             }
@@ -43,8 +43,8 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             {
                 Vehicle newVehicle = AddVehicle(i_LicenseNumber);
 
-                string ownerName = getUserInput.getOwnerName();
-                string ownerPhone = getUserInput.getOwnerPhone();
+                string ownerName = m_UserInput.GetOwnerName();
+                string ownerPhone = m_UserInput.GetOwnerPhone();
 
                 VehicleRecords newRecord = new VehicleRecords
                 {
@@ -54,20 +54,20 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                     Status = VehicleRecords.eVehicleStatus.InRepair
                 };
 
-                vehicles.Add(i_LicenseNumber, newRecord);
+                m_Vehicles.Add(i_LicenseNumber, newRecord);
                 Console.WriteLine("Vehicle successfully added to the garage.");
             }
         }
 
         public void InflateTiresToMax(string i_LicenseNumber)
         {
-            if (!vehicles.ContainsKey(i_LicenseNumber))
+            if (!m_Vehicles.ContainsKey(i_LicenseNumber))
             {
                 Console.WriteLine($"No vehicle found with model number: {i_LicenseNumber}");
             }
             else
             {
-                vehicles[i_LicenseNumber].m_Vehicle.fillTiresToMax();
+                m_Vehicles[i_LicenseNumber].m_Vehicle.FillTiresToMax();
             }
         }
 
@@ -79,19 +79,19 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 Console.WriteLine($"- {type}");
             }
 
-            string selectedType = getUserInput.getvehicleType();
-            string modelName = getUserInput.getVeicleModelName();
+            string selectedType = m_UserInput.GetVehicleType();
+            string modelName = m_UserInput.GetVehicleModelName();
 
             Vehicle newVehicle = VehicleCreator.CreateVehicle(selectedType, i_LicenseNumber, modelName);
-            fillVehicleDetails(newVehicle);
+            FillVehicleDetails(newVehicle);
 
             return newVehicle;
         }
 
 
-        private void fillVehicleDetails(Vehicle i_Vehicle)
+        private void FillVehicleDetails(Vehicle i_Vehicle)
         {
-            string tireModel = getUserInput.getTireModel();
+            string tireModel = m_UserInput.GetTireModel();
             float airPressure;
             float energyPercentage;
             float cargoVolume;
@@ -105,7 +105,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             {
                 try
                 {
-                    airPressure = getUserInput.getTireAirPressure();
+                    airPressure = m_UserInput.GetTireAirPressure();
                     i_Vehicle.SetTiresInfo(airPressure, tireModel);
                     break;
                 }
@@ -119,7 +119,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             {
                 try
                 {
-                    energyPercentage = getUserInput.getCurrentEnergyPercentage();
+                    energyPercentage = m_UserInput.GetCurrentEnergyPercentage();
                     i_Vehicle.EnergyPercentage = energyPercentage;
                     break;
                 }
@@ -135,7 +135,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 {
                     try
                     {
-                        licenseType = getUserInput.getLicenseType();
+                        licenseType = m_UserInput.GetLicenseType();
                         fuelMotorcycle.LicenseType = licenseType;
                         break;
                     }
@@ -149,7 +149,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 {
                     try
                     {
-                        engineCapacity = getUserInput.getEngineCapacity();
+                        engineCapacity = m_UserInput.GetEngineCapacity();
                         fuelMotorcycle.EngineCapacity = engineCapacity;
                         break;
                     }
@@ -165,7 +165,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 {
                     try
                     {
-                        licenseType = getUserInput.getLicenseType();
+                        licenseType = m_UserInput.GetLicenseType();
                         elMotorcycle.LicenseType = licenseType;
                         break;
                     }
@@ -179,7 +179,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 {
                     try
                     {
-                        engineCapacity = getUserInput.getEngineCapacity();
+                        engineCapacity = m_UserInput.GetEngineCapacity();
                         elMotorcycle.EngineCapacity = engineCapacity;
                         break;
                     }
@@ -195,8 +195,8 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 {
                     try
                     {
-                        color = getUserInput.getCarColor();
-                        fuelCar.SetColor = color;
+                        color = m_UserInput.GetCarColor();
+                        fuelCar.Color = color;
                         break;
                     }
                     catch (Exception e)
@@ -210,8 +210,8 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 {
                     try
                     {
-                        numDoors = getUserInput.getNumberOfDoors();
-                        fuelCar.SetNumberOfDoors = numDoors;
+                        numDoors = m_UserInput.GetNumberOfDoors();
+                        fuelCar.NumberOfDoors = numDoors;
                         break;
                     }
                     catch (ValueRangeException e)
@@ -226,8 +226,8 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 {
                     try
                     {
-                        color = getUserInput.getCarColor();
-                        elCar.SetColor = color;
+                        color = m_UserInput.GetCarColor();
+                        elCar.Color = color;
                         break;
                     }
                     catch (Exception e)
@@ -241,8 +241,8 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 {
                     try
                     {
-                        numDoors = getUserInput.getNumberOfDoors();
-                        elCar.SetNumberOfDoors = numDoors;
+                        numDoors = m_UserInput.GetNumberOfDoors();
+                        elCar.NumberOfDoors = numDoors;
                         break;
                     }
                     catch (ValueRangeException e)
@@ -257,7 +257,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 {
                     try
                     {
-                        hasHazard = getUserInput.getIsHazardous();
+                        hasHazard = m_UserInput.GetIsHazardous();
                         truck.CarriesHazardousMaterials = hasHazard;
                         break;
                     }
@@ -271,7 +271,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 {
                     try
                     {
-                        cargoVolume = getUserInput.getCargoVolume();
+                        cargoVolume = m_UserInput.GetCargoVolume();
                         truck.CargoVolume = cargoVolume;
                         break;
                     }
@@ -286,7 +286,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
         public void DisplayAllVehicles()
         {
             string userInput;
-            bool watchOptionsOrNot = getUserInput.getIfUserWatchOptions();
+            bool watchOptionsOrNot = m_UserInput.GetIfUserWatchOptions();
 
             if (watchOptionsOrNot == true)
             {
@@ -313,7 +313,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 Console.WriteLine($"Vehicles with status '{selectedStatus}':");
 
                 bool found = false;
-                foreach (var vehicle in vehicles)
+                foreach (var vehicle in m_Vehicles)
                 {
                     if (vehicle.Value.Status == selectedStatus)
                     {
@@ -330,7 +330,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             else
             {
                 Console.WriteLine("Those are all the vehicles in the garage at this moment.");
-                foreach (var vehicle in vehicles)
+                foreach (var vehicle in m_Vehicles)
                 {
                     Console.WriteLine($"- {vehicle.Key}");
                 }
@@ -339,7 +339,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
 
         public void ChangeVehicleStatus(string i_ModelNumber, string i_newStatus)
         {
-            if (!vehicles.ContainsKey(i_ModelNumber))
+            if (!m_Vehicles.ContainsKey(i_ModelNumber))
             {
                 Console.WriteLine($"No vehicle found with model number: {i_ModelNumber}");
                 return;
@@ -358,20 +358,20 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 return;
             }
 
-            vehicles[i_ModelNumber].Status = selectedStatus;
+            m_Vehicles[i_ModelNumber].Status = selectedStatus;
             Console.WriteLine($"Vehicle status updated to: {selectedStatus}");
         }
 
 
         public void ChargeElectricVehicle(string i_ModelNumber, float i_AmountToCharge)
         {
-            if (!vehicles.ContainsKey(i_ModelNumber))
+            if (!m_Vehicles.ContainsKey(i_ModelNumber))
             {
                 Console.WriteLine($"No vehicle found with model number: {i_ModelNumber}");
                 return;
             }
 
-            ElectricVehicle carToCharge = vehicles[i_ModelNumber].m_Vehicle as ElectricVehicle;
+            ElectricVehicle carToCharge = m_Vehicles[i_ModelNumber].m_Vehicle as ElectricVehicle;
             if (carToCharge == null)
             {
                 Console.WriteLine("The vehicle is not an electric vehicle.");
@@ -395,13 +395,13 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
 
         public void RefuelFuelVehicle(string i_ModelNumber, float i_AmountToRefuel, eFuelType i_FuelType)
         {
-            if (!vehicles.ContainsKey(i_ModelNumber))
+            if (!m_Vehicles.ContainsKey(i_ModelNumber))
             {
                 Console.WriteLine($"No vehicle found with model number: {i_ModelNumber}");
                 return;
             }
 
-            FuelVehicle vehicleToRefuel = vehicles[i_ModelNumber].m_Vehicle as FuelVehicle;
+            FuelVehicle vehicleToRefuel = m_Vehicles[i_ModelNumber].m_Vehicle as FuelVehicle;
             if (vehicleToRefuel == null)
             {
                 Console.WriteLine("The vehicle is not a fuel Vehicle.");
@@ -414,13 +414,13 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
 
         public void ShowVehiclesDetails(string i_licenseNumber)
         {
-            if (!vehicles.ContainsKey(i_licenseNumber))
+            if (!m_Vehicles.ContainsKey(i_licenseNumber))
             {
                 Console.WriteLine($"No vehicle found with license number: {i_licenseNumber}");
                 return;
             }
 
-            VehicleRecords record = vehicles[i_licenseNumber];
+            VehicleRecords record = m_Vehicles[i_licenseNumber];
             Console.WriteLine(record.m_Vehicle.PrintVehicleDetails());
             Console.WriteLine($"Owner Name: {record.m_NameOfOwner}");
             Console.WriteLine($"Phone Number: {record.m_PhoneNumber}");

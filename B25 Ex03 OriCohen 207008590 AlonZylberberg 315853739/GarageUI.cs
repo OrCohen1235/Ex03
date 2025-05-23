@@ -10,21 +10,6 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
     {
         private Dictionary<string, VehicleRecords> vehicles;
 
-        public class VehicleRecords
-        {
-            public Vehicle m_Vehicle { get; set; }
-            public string m_NameOfOwner { get; set; }
-            public string m_PhoneNumber { get; set; }
-
-            public enum eVehicleStatus
-            {
-                InRepair,
-                Repaired,
-                Paid
-            }
-
-            public eVehicleStatus Status { get; set; }
-        }
 
         public GarageUI()
         {
@@ -165,7 +150,6 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error parsing line: {line}");
                     Console.WriteLine($"Details: {ex.Message}");
                 }
             }
@@ -304,12 +288,17 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
 
         private eCarColor getCarColor()
         {
-            Console.Write("Enter car color (Yellow, Black, White, Silver): ");
-            if (!Enum.TryParse(Console.ReadLine(), ignoreCase: true, out eCarColor color))
+            string[] colorOptions = Enum.GetNames(typeof(eCarColor));
+            Console.Write($"Enter car color ({string.Join(", ", colorOptions)}): ");
+
+            string input = Console.ReadLine();
+
+            if (!Enum.TryParse(input, ignoreCase: true, out eCarColor color) ||
+                !Enum.IsDefined(typeof(eCarColor), color))
             {
                 throw new ArgumentException("Invalid car color.");
             }
-            
+
             return color;
         }
 
@@ -365,9 +354,9 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                     i_Vehicle.SetTiresInfo(airPressure,tireModel);
                 break;
                 }
-                catch (FormatException e)
+                catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    Console.WriteLine(e.Message);
                 }
             }
             
@@ -380,10 +369,10 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                     i_Vehicle.EnergyPercentage = energyPercentage;
                     break;
                 }
-                catch (ValueRangeException e)
+                catch (Exception e)
                 {
-                    Console.WriteLine(e);
-                    throw;
+                    Console.WriteLine(e.Message);
+                    
                 }
             }
             
@@ -398,10 +387,10 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                         fuelMotorcycle.LicenseType = licenseType;
                         break;
                     }
-                    catch (ArgumentException e)
+                    catch (Exception e)
                     {
-                        Console.WriteLine(e);
-                        throw;
+                        Console.WriteLine(e.Message);
+                        
                     }
                 }
 
@@ -413,10 +402,10 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                         fuelMotorcycle.EngineCapacity = engineCapacity;
                         break;
                     }
-                    catch (FormatException e)
+                    catch (Exception e)
                     {
-                        Console.WriteLine(e);
-                        throw;
+                        Console.WriteLine(e.Message);
+                        
                     }
                 }
             }
@@ -430,10 +419,10 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                         elMotorcycle.LicenseType = licenseType;
                         break;
                     }
-                    catch (ArgumentException e)
+                    catch (Exception e)
                     {
-                        Console.WriteLine(e);
-                        throw;
+                        Console.WriteLine(e.Message);
+                        
                     }
                 }
 
@@ -445,10 +434,10 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                         elMotorcycle.EngineCapacity = engineCapacity;
                         break;
                     }
-                    catch (FormatException e)
+                    catch (Exception e)
                     {
-                        Console.WriteLine(e);
-                        throw;
+                        Console.WriteLine(e.Message);
+                        
                     }
                 }
             }
@@ -462,10 +451,10 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                         fuelCar.SetColor = color;
                         break;
                     }
-                    catch (ArgumentException e)
+                    catch (Exception e)
                     {
-                        Console.WriteLine(e);
-                        throw;
+                        Console.WriteLine(e.Message);
+                        
                     }
                 }
 
@@ -480,8 +469,8 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                     }
                     catch (ValueRangeException e)
                     {
-                        Console.WriteLine(e);
-                        throw;
+                        Console.WriteLine(e.Message);
+                        
                     }
                 }
             }
@@ -495,10 +484,10 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                         elCar.SetColor = color;
                         break;
                     }
-                    catch (ArgumentException e)
+                    catch (Exception e)
                     {
-                        Console.WriteLine(e);
-                        throw;
+                        Console.WriteLine(e.Message);
+                        
                     }
                 }
 
@@ -513,8 +502,8 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                     }
                     catch (ValueRangeException e)
                     {
-                        Console.WriteLine(e);
-                        throw;
+                        Console.WriteLine(e.Message);
+                        
                     }
                 }
             }
@@ -532,8 +521,8 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                     }
                     catch (FormatException e)
                     {
-                        Console.WriteLine(e);
-                        throw;
+                        Console.WriteLine(e.Message);
+                        
                     }
                 }
 
@@ -547,8 +536,8 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                     }
                     catch (FormatException e)
                     {
-                        Console.WriteLine(e);
-                        throw;
+                        Console.WriteLine(e.Message);
+                       
                     }
                 }
             }
@@ -634,7 +623,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
         }
 
 
-        public void chargeElectricCar(string i_ModelNumber, float i_AmountToCharge)
+        public void ChargeElectricVehicle(string i_ModelNumber, float i_AmountToCharge)
         {
             if (!vehicles.ContainsKey(i_ModelNumber))
             {
@@ -642,17 +631,17 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 return;
             }
 
-            ElectricCar carToCharge = vehicles[i_ModelNumber].m_Vehicle as ElectricCar;
+            ElectricVehicle carToCharge = vehicles[i_ModelNumber].m_Vehicle as ElectricVehicle;
             if (carToCharge == null)
             {
-                Console.WriteLine("The vehicle is not an electric car.");
+                Console.WriteLine("The vehicle is not an electric vehicle.");
                 return;
             }
 
             try
             {
                 carToCharge.ChargeBattery(i_AmountToCharge);
-                Console.WriteLine($"Electric car charged by {i_AmountToCharge} hours.");
+                Console.WriteLine($"Electric vehicle charged by {i_AmountToCharge} hours.");
             }
             catch
             {
@@ -685,7 +674,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
 
         }
         
-        public void showVehiclesDetails(string i_licenseNumber)
+        public void ShowVehiclesDetails(string i_licenseNumber)
         {
             if (!vehicles.ContainsKey(i_licenseNumber))
             {
@@ -700,6 +689,21 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             Console.WriteLine($"Status: {record.Status}");
         }
         
+    }
+    public class VehicleRecords
+    {
+        public Vehicle m_Vehicle { get; set; }
+        public string m_NameOfOwner { get; set; }
+        public string m_PhoneNumber { get; set; }
+
+        public enum eVehicleStatus
+        {
+            InRepair,
+            Repaired,
+            Paid
+        }
+
+        public eVehicleStatus Status { get; set; }
     }
 }
 

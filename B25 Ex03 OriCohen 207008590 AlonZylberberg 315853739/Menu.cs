@@ -105,32 +105,42 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
         private void refuelFuelVehicle()
         {
             string license = getLicenseFromUser();
-            Console.Write("Enter fuel type (e.g., Soler, Octan95,Octan96,Octan98): ");
-            string fuelInput = Console.ReadLine();
 
-            if (!Enum.TryParse(fuelInput, true, out eFuelType fuelType))
+            while (true)
             {
-                Console.WriteLine("Invalid fuel type.");
-                return;
+                Console.Write("Enter fuel type (e.g., Soler, Octan95,Octan96,Octan98): ");
+                string fuelInput = Console.ReadLine();
+
+                if(!Enum.TryParse(fuelInput, true, out eFuelType fuelType))
+                {
+                    Console.WriteLine("Invalid fuel type.");
+                    return;
+                }
+
+                float amount = getFloatFromUser("Enter amount to refuel: ");
+                try
+                {
+                    r_GarageManager.RefuelFuelVehicle(license, amount, fuelType);
+                    break;
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
-
-            float amount = getFloatFromUser("Enter amount to refuel: ");
-            r_GarageManager.RefuelFuelVehicle(license, amount, fuelType);
-            
-
         }
 
         private void chargeElectricVehicle()
         {
             string license = getLicenseFromUser();
             float hours = getFloatFromUser("Enter amount of hours to charge: ");
-            r_GarageManager.chargeElectricCar(license, hours);
+            r_GarageManager.ChargeElectricVehicle(license, hours);
         }
 
         private void displayVehicleDetails()
         {
             string license = getLicenseFromUser();
-            r_GarageManager.showVehiclesDetails(license);
+            r_GarageManager.ShowVehiclesDetails(license);
         }
 
         private string getLicenseFromUser()

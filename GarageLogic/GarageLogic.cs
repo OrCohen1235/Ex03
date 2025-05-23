@@ -46,7 +46,7 @@ namespace Ex03.GarageLogic
 			}
 			else
 			{
-				throw new ArgumentException("Current pressure cannot exceed max pressure.");
+				throw new ValueRangeException("Current pressure cannot exceed max pressure.");
 			}
 
 			r_MaxPressure = i_MaxPressure;
@@ -126,8 +126,13 @@ namespace Ex03.GarageLogic
 		}
         public void SetTiresInfo(float i_airPressure,string r_Manufacturer)
         {
+
             foreach(Wheel wheel in r_Wheels )
             {
+                if(i_airPressure >= wheel.MaxPressure)
+                {
+                    throw new ValueRangeException(0,wheel.MaxPressure,"Current pressure cannot exceed max pressure.");
+                }
                 wheel.CurrentPressure = i_airPressure;
                 wheel.Manufacturer = r_Manufacturer;
             }
@@ -163,7 +168,7 @@ namespace Ex03.GarageLogic
 				}
 				else
 				{
-					throw new ArgumentException("Energy percentage must be between 0 and 100.");
+					throw new ValueRangeException(0,100);
 				}
 			}
 		}
@@ -216,25 +221,29 @@ namespace Ex03.GarageLogic
 		{
 			get { return m_CurrentFuelAmount; }
 		}
-		
-		public void Refuel(eFuelType i_FuelType, float i_LitersToAdd)
-		{
-			if (i_FuelType != r_FuelType)
-			{
-				throw new ArgumentException("Fuel type mismatch.");
-			}
 
-			if (m_CurrentFuelAmount + i_LitersToAdd <= r_MaxFuelAmount)
-			{
-				m_CurrentFuelAmount += i_LitersToAdd;
-				EnergyPercentage = (m_CurrentFuelAmount / r_MaxFuelAmount) * 100f;
-			}
-			else
-			{
-				throw new ArgumentException("Cannot refuel beyond tank capacity.");
-			}
-		}
-	}
+        public void Refuel(eFuelType i_FuelType, float i_LitersToAdd)
+        {
+            if (i_FuelType != r_FuelType)
+            {
+                throw new ArgumentException("Fuel type mismatch.");
+            }
+
+            if (i_LitersToAdd < 0)
+            {
+                throw new ArgumentException("Cannot refuel a negative amount.");
+            }
+
+            if (m_CurrentFuelAmount + i_LitersToAdd > r_MaxFuelAmount)
+            {
+                float maxAmountCanAdd = r_MaxFuelAmount - m_CurrentFuelAmount;
+                throw new ValueRangeException(0, maxAmountCanAdd, "Cannot refuel beyond tank capacity.");
+            }
+
+            m_CurrentFuelAmount += i_LitersToAdd;
+            EnergyPercentage = (m_CurrentFuelAmount / r_MaxFuelAmount) * 100f;
+        }
+    }
 
 	// Electric vehicle
 	public abstract class ElectricVehicle : Vehicle
@@ -285,7 +294,7 @@ namespace Ex03.GarageLogic
 			}
 			else
 			{
-				throw new ArgumentException("Cannot charge beyond battery capacity.");
+				throw new ValueRangeException(0,r_MaxBatteryHours,"Cannot charge beyond battery capacity.");
 			}
 		}
 	}
@@ -341,8 +350,10 @@ namespace Ex03.GarageLogic
 			       $"Current Fuel Amount: {CurrentFuelAmount}\n" +
 			       $"Max Fuel Amount: {r_MaxFuelAmount}\n" +
 			       $"Fuel Type: {FuelType}\n" +
-			       $"Energy Percentage: {EnergyPercentage}%";
-		}
+			       $"Energy Percentage: {EnergyPercentage}%\n" +
+                   $"Wheels Pressure:{Wheels[0].CurrentPressure}\n" +
+                   $"Wheels Manufacturer:{Wheels[0].Manufacturer}";
+        }
 	}
 
 	// Electric motorcycle
@@ -394,8 +405,10 @@ namespace Ex03.GarageLogic
 			       $"Engine Capacity: {EngineCapacity}cc\n" +
 			       $"Remaining Battery: {RemainingBatteryHours} hours\n" +
 			       $"Max Battery: {MaxBatteryHours} hours\n" +
-			       $"Energy Percentage: {EnergyPercentage}%";
-		}
+			       $"Energy Percentage: {EnergyPercentage}%\n" +
+                   $"Wheels Pressure: {Wheels[0].CurrentPressure}\n" +
+                   $"Wheels Manufacturer: {Wheels[0].Manufacturer}";
+        }
 	}
 
 	// Fuel car
@@ -427,7 +440,7 @@ namespace Ex03.GarageLogic
 			r_Color = i_Color;
 			if (i_NumberOfDoors < 2 || i_NumberOfDoors > 5)
 			{
-				throw new ArgumentException("Number of doors must be between 2 and 5.");
+				throw new ValueRangeException(2,5);
 			}
 			r_NumberOfDoors = i_NumberOfDoors;
 		}
@@ -460,7 +473,9 @@ namespace Ex03.GarageLogic
 	               $"Current Fuel Amount: {CurrentFuelAmount}\n" +
 	               $"Max Fuel Amount: {r_MaxFuelAmount}\n" +
 	               $"Fuel Type: {FuelType}\n" +
-	               $"Energy Percentage: {EnergyPercentage}%";
+	               $"Energy Percentage: {EnergyPercentage}%\n" +
+                   $"Wheels Pressure: {Wheels[0].CurrentPressure}\n" +
+                   $"Wheels Manufacturer: {Wheels[0].Manufacturer}";
         }
 	}
 	
@@ -517,14 +532,16 @@ namespace Ex03.GarageLogic
 		public override string PrintVehicleDetails()
 		{
 			return $"Vehicle Details for {LicenseNumber}:\n" +
-			       $"Vehicle Type: Electric Car\n" +
-			       $"Model Name: {ModelName}\n" +
-			       $"Color: {r_Color}\n" +
-			       $"Number of Doors: {r_NumberOfDoors}\n" +
-			       $"Remaining Battery: {RemainingBatteryHours} hours\n" +
-			       $"Max Battery: {MaxBatteryHours} hours\n" +
-			       $"Energy Percentage: {EnergyPercentage}%";
-		}
+				   $"Vehicle Type: Electric Car\n" +
+				   $"Model Name: {ModelName}\n" +
+				   $"Color: {r_Color}\n" +
+				   $"Number of Doors: {r_NumberOfDoors}\n" +
+				   $"Remaining Battery: {RemainingBatteryHours} hours\n" +
+				   $"Max Battery: {MaxBatteryHours} hours\n" +
+				   $"Energy Percentage: {EnergyPercentage}%\n" +
+				   $"Wheels Pressure: {Wheels[0].CurrentPressure}\n" +
+				   $"Wheels Manufacturer: {Wheels[0].Manufacturer}";
+        }
 	}
 
 
@@ -568,7 +585,9 @@ namespace Ex03.GarageLogic
 	               $"Current Fuel Amount: {CurrentFuelAmount}\n" +
 	               $"Max Fuel Amount: {r_MaxFuelAmount}\n" +
 	               $"Fuel Type: {FuelType}\n" +
-	               $"Energy Percentage: {EnergyPercentage}%";
+	               $"Energy Percentage: {EnergyPercentage}%\n" +
+				   $"Wheels Pressure: {Wheels[0].CurrentPressure}\n" +
+				   $"Wheels Manufacturer: {Wheels[0].Manufacturer}";
         }
     }
 }

@@ -42,7 +42,6 @@
     <Compile Include="GarageUI.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ValueRangeException.cs" />
     <Compile Include="VehicleCreator.cs" />
   </ItemGroup>
   <ItemGroup>

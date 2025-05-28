@@ -178,15 +178,17 @@ namespace Ex03.GarageLogic
         }
 
         public abstract string PrintVehicleDetails();
+        public abstract object[] getExtraDetailsFunctions();
+        public abstract string[] getExtraDetailsText();
     }
 
     // Fuel-based vehicle
     public abstract class FuelVehicle : Vehicle
     {
-        public eFuelType m_FuelType { get; set; }
+        private eFuelType m_FuelType;
         private float m_CurrentFuelAmount;
-        public float m_MaxFuelAmount { get; set; }
-
+        private float m_MaxFuelAmount;
+        
         protected FuelVehicle(string i_ModelName, string i_LicenseNumber)
             : base(i_ModelName, i_LicenseNumber)
         {
@@ -214,11 +216,25 @@ namespace Ex03.GarageLogic
         public eFuelType FuelType
         {
             get { return m_FuelType; }
+            set { m_FuelType = value;}
         }
+    
+        public float MaxFuelAmount
+        {
+            get { return m_MaxFuelAmount; }
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ValueRangeException(0, float.MaxValue, "Max fuel amount must be positive.");
+                }
 
+                m_MaxFuelAmount = value;
+            }
+        }
         public float CurrentFuelAmount
         {
-            get { return m_CurrentFuelAmount; }
+            get;
         }
 
         public void Refuel(eFuelType i_FuelType, float i_LitersToAdd)
@@ -248,7 +264,7 @@ namespace Ex03.GarageLogic
     public abstract class ElectricVehicle : Vehicle
     {
         private float m_RemainingBatteryHours;
-        public float m_MaxBatteryHours { get; set; }
+        private float m_MaxBatteryHours;
 
         protected ElectricVehicle(string i_ModelName, string i_LicenseNumber)
             : base(i_ModelName, i_LicenseNumber)
@@ -281,6 +297,7 @@ namespace Ex03.GarageLogic
         public float MaxBatteryHours
         {
             get { return m_MaxBatteryHours; }
+            set { m_MaxBatteryHours = value; }
         }
 
         public void ChargeBattery(float i_HoursToAdd)
@@ -306,8 +323,8 @@ namespace Ex03.GarageLogic
         public FuelMotorcycle(string i_LicenseNumber, string i_ModelName)
             : base(i_ModelName, i_LicenseNumber)
         {
-            this.m_FuelType = eFuelType.Octan98;
-            this.m_MaxFuelAmount = 5.8f;
+            this.FuelType = eFuelType.Octan98;
+            this.MaxFuelAmount = 5.8f;
             this.CreateWheels("", 2, 0, 30);
         }
 
@@ -347,11 +364,55 @@ namespace Ex03.GarageLogic
                    $"License Type: {LicenseType}\n" +
                    $"Engine Capacity: {EngineCapacity}cc\n" +
                    $"Current Fuel Amount: {CurrentFuelAmount}\n" +
-                   $"Max Fuel Amount: {m_MaxFuelAmount}\n" +
+                   $"Max Fuel Amount: {MaxFuelAmount}\n" +
                    $"Fuel Type: {FuelType}\n" +
                    $"Energy Percentage: {EnergyPercentage}%\n" +
                    $"Wheels Pressure:{Wheels[0].CurrentPressure}\n" +
                    $"Wheels Manufacturer:{Wheels[0].Manufacturer}";
+        }
+
+        
+        private void SetLicenseType(string i_LicenseType)
+        {
+            if (Enum.TryParse(i_LicenseType, true, out eLicenseType licenseType) && Enum.IsDefined(typeof(eLicenseType), licenseType))
+            {
+                LicenseType = licenseType;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid license type.");
+            }
+        }
+        
+        private void SetEngineCapacity(string i_EngineCapacity)
+        {
+            if (!int.TryParse(i_EngineCapacity, out int engineCapacity))
+            {
+                throw new FormatException("Invalid engine capacity format.");
+            }
+            
+            if (engineCapacity <= 0)
+            {
+                throw new ValueRangeException(1, int.MaxValue, "Engine capacity must be a positive value.");
+            }
+
+            EngineCapacity = engineCapacity;
+        }
+
+        public override object[] getExtraDetailsFunctions()
+        {
+            object[] extraDetails = new object[2];
+            extraDetails[0] = new Action<string>(SetLicenseType);
+            extraDetails[1] = new Action<string>(SetEngineCapacity);
+            return extraDetails;
+        }
+        
+        public override string[] getExtraDetailsText()
+        {
+            string[] extraDetailsText = new string[2];
+            extraDetailsText[0] = "Enter License Type (A, A2, AB, B2):";
+            extraDetailsText[1] = "Enter Engine Capacity (in cc):";
+            return extraDetailsText;
         }
     }
 
@@ -365,7 +426,7 @@ namespace Ex03.GarageLogic
             : base(i_ModelName, i_LicenseNumber)
         {
             this.CreateWheels("", 2, 0, 30);
-            this.m_MaxBatteryHours = 3.2f;
+            this.MaxBatteryHours = 3.2f;
         }
 
         public ElectricMotorcycle(
@@ -409,20 +470,63 @@ namespace Ex03.GarageLogic
                    $"Wheels Pressure: {Wheels[0].CurrentPressure}\n" +
                    $"Wheels Manufacturer: {Wheels[0].Manufacturer}";
         }
+
+        private void SetLicenseType(string i_LicenseType)
+        {
+            if (Enum.TryParse(i_LicenseType, true, out eLicenseType licenseType) && Enum.IsDefined(typeof(eLicenseType), licenseType))
+            {
+                LicenseType = licenseType;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid license type.");
+            }
+        }
+        
+        private void SetEngineCapacity(string i_EngineCapacity)
+        {
+            if (!int.TryParse(i_EngineCapacity, out int engineCapacity))
+            {
+                throw new FormatException("Invalid engine capacity format.");
+            }
+            
+            if (engineCapacity <= 0)
+            {
+                throw new ValueRangeException(1, int.MaxValue, "Engine capacity must be a positive value.");
+            }
+
+            EngineCapacity = engineCapacity;
+        }
+
+        public override object[] getExtraDetailsFunctions()
+        {
+            object[] extraDetails = new object[2];
+            extraDetails[0] = new Action<string>(SetLicenseType);
+            extraDetails[1] = new Action<string>(SetEngineCapacity);
+            return extraDetails;
+        }
+        
+        public override string[] getExtraDetailsText()
+        {
+            string[] extraDetailsText = new string[2];
+            extraDetailsText[0] = "Enter License Type (A, A2, AB, B2):";
+            extraDetailsText[1] = "Enter Engine Capacity (in cc):";
+            return extraDetailsText;
+        }
     }
 
     // Fuel car
     public class FuelCar : FuelVehicle
     {
-        public eCarColor m_Color;
-        public int m_NumberOfDoors;
+        private eCarColor m_Color;
+        private int m_NumberOfDoors;
         public eLicenseType m_LicenseType;
 
         public FuelCar(string i_LicenseNumber, string i_ModelName)
             : base(i_ModelName, i_LicenseNumber)
         {
-            this.m_FuelType = eFuelType.Octan95;
-            this.m_MaxFuelAmount = 48f;
+            this.FuelType = eFuelType.Octan95;
+            this.MaxFuelAmount = 48f;
             this.CreateWheels("", 5, 0, 32);
         }
 
@@ -449,14 +553,14 @@ namespace Ex03.GarageLogic
 
         public eCarColor Color
         {
-            get { return m_Color; }
-            set { m_Color = value; }
+            get;
+            set;
         }
 
         public int NumberOfDoors
         {
-            get { return m_NumberOfDoors; }
-            set { m_NumberOfDoors = value; }
+            get;
+            set;
         }
 
         public override string PrintVehicleDetails()
@@ -467,11 +571,54 @@ namespace Ex03.GarageLogic
                    $"Color: {m_Color}\n" +
                    $"Number of Doors: {m_NumberOfDoors}\n" +
                    $"Current Fuel Amount: {CurrentFuelAmount}\n" +
-                   $"Max Fuel Amount: {m_MaxFuelAmount}\n" +
+                   $"Max Fuel Amount: {MaxFuelAmount}\n" +
                    $"Fuel Type: {FuelType}\n" +
                    $"Energy Percentage: {EnergyPercentage}%\n" +
                    $"Wheels Pressure: {Wheels[0].CurrentPressure}\n" +
                    $"Wheels Manufacturer: {Wheels[0].Manufacturer}";
+        }
+
+        private void SetColor(string i_Color)
+        {
+            if (Enum.TryParse(i_Color, true, out eCarColor color) && Enum.IsDefined(typeof(eCarColor), color))
+            {
+                Color = color;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid car color.");
+            }
+        }
+        
+        private void setNumOfDoors(string i_NumDoors)
+        {
+            if (!int.TryParse(i_NumDoors, out int numDoors))
+            {
+                throw new FormatException("Invalid number of doors format.");
+            }
+            
+            if (numDoors < 2 || numDoors > 5)
+            {
+                throw new ValueRangeException(2, 5, "Number of doors must be between 2 and 5.");
+            }
+
+            NumberOfDoors = numDoors;
+        }
+        
+        public override object[] getExtraDetailsFunctions()
+        {
+            object[] extraDetails = new object[2];
+            extraDetails[0] = new Action<string>(SetColor);
+            extraDetails[1] = new Action<string>(setNumOfDoors);
+            return extraDetails;
+        }
+        
+        public override string[] getExtraDetailsText()
+        {
+            string[] extraDetailsText = new string[2];
+            extraDetailsText[0] = "Enter car color: (Yellow, Black, White, Silver): ";
+            extraDetailsText[1] = "Enter number of doors (2-5): ";
+            return extraDetailsText;
         }
     }
 
@@ -484,7 +631,7 @@ namespace Ex03.GarageLogic
             : base(i_ModelName, i_LicenseNumber)
         {
             this.CreateWheels("", 5, 0, 32);
-            this.m_MaxBatteryHours = 4.8f;
+            this.MaxBatteryHours = 4.8f;
         }
 
         public ElectricCar(
@@ -533,6 +680,49 @@ namespace Ex03.GarageLogic
                    $"Wheels Pressure: {Wheels[0].CurrentPressure}\n" +
                    $"Wheels Manufacturer: {Wheels[0].Manufacturer}";
         }
+
+        private void SetColor(string i_Color)
+        {
+            if (Enum.TryParse(i_Color, true, out eCarColor color) && Enum.IsDefined(typeof(eCarColor), color))
+            {
+                Color = color;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid car color.");
+            }
+        }
+        
+        private void setNumOfDoors(string i_NumDoors)
+        {
+            if (!int.TryParse(i_NumDoors, out int numDoors))
+            {
+                throw new FormatException("Invalid number of doors format.");
+            }
+            
+            if (numDoors < 2 || numDoors > 5)
+            {
+                throw new ValueRangeException(2, 5, "Number of doors must be between 2 and 5.");
+            }
+
+            NumberOfDoors = numDoors;
+        }
+        public override object[] getExtraDetailsFunctions()
+        {
+            object[] extraDetails = new object[2];
+            extraDetails[0] = new Action<string>(SetColor);
+            extraDetails[1] = new Action<string>(setNumOfDoors);
+            return extraDetails;
+        }
+        
+        public override string[] getExtraDetailsText()
+        {
+            string[] extraDetailsText = new string[2];
+            extraDetailsText[0] = "Enter car color: (Yellow, Black, White, Silver): ";
+            extraDetailsText[1] = "Enter number of doors (2-5): ";
+            return extraDetailsText;
+        }
+         
     }
 
 
@@ -545,8 +735,8 @@ namespace Ex03.GarageLogic
         public Truck(string i_LicenseNumber, string i_ModelName)
             : base(i_ModelName, i_LicenseNumber)
         {
-            this.m_FuelType = eFuelType.Soler;
-            this.m_MaxFuelAmount = 135f;
+            this.FuelType = eFuelType.Soler;
+            this.MaxFuelAmount = 135f;
             this.CreateWheels("", 12, 0, 27);
         }
 
@@ -574,11 +764,54 @@ namespace Ex03.GarageLogic
                    $"Carries Hazardous Materials: {CarriesHazardousMaterials}\n" +
                    $"Cargo Volume: {CargoVolume}\n" +
                    $"Current Fuel Amount: {CurrentFuelAmount}\n" +
-                   $"Max Fuel Amount: {m_MaxFuelAmount}\n" +
+                   $"Max Fuel Amount: {MaxFuelAmount}\n" +
                    $"Fuel Type: {FuelType}\n" +
                    $"Energy Percentage: {EnergyPercentage}%\n" +
                    $"Wheels Pressure: {Wheels[0].CurrentPressure}\n" +
                    $"Wheels Manufacturer: {Wheels[0].Manufacturer}";
+        }
+
+        private void SetHazardousMaterials(string i_CarriesHazardous)
+        {
+            if (bool.TryParse(i_CarriesHazardous, out bool carriesHazardous))
+            {
+                CarriesHazardousMaterials = carriesHazardous;
+            }
+            else
+            {
+                throw new FormatException("Invalid format for hazardous materials flag. Please enter 'true' or 'false'.");
+            }
+        }
+        
+        private void SetCargoVolume(string i_CargoVolume)
+        {
+            if (!float.TryParse(i_CargoVolume, out float cargoVolume))
+            {
+                throw new FormatException("Invalid cargo volume format.");
+            }
+            
+            if (cargoVolume <= 0)
+            {
+                throw new ValueRangeException(0, float.MaxValue, "Cargo volume must be a positive value.");
+            }
+
+            CargoVolume = cargoVolume;
+        }
+
+        public override object[] getExtraDetailsFunctions()
+        {
+            object[] extraDetails = new object[2];
+            extraDetails[0] = new Action<string>(SetHazardousMaterials);
+            extraDetails[1] = new Action<string>(SetCargoVolume);
+            return extraDetails;
+        }
+        
+        public override string[] getExtraDetailsText()
+        {
+            string[] extraDetailsText = new string[2];
+            extraDetailsText[0] = "Does the truck carry hazardous materials? (true/false): ";
+            extraDetailsText[1] = "Enter cargo volume: ";
+            return extraDetailsText;
         }
     }
 }

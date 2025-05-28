@@ -92,20 +92,12 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
         private void FillVehicleDetails(Vehicle i_Vehicle)
         {
             string tireModel = m_UserInput.GetTireModel();
-            float airPressure;
-            float energyPercentage;
-            float cargoVolume;
-            eLicenseType licenseType;
-            eCarColor color;
-            int engineCapacity;
-            int numDoors;
-            bool hasHazard;
-
+            
             while (true)
             {
                 try
                 {
-                    airPressure = m_UserInput.GetTireAirPressure();
+                    float airPressure = m_UserInput.GetTireAirPressure();
                     i_Vehicle.SetTiresInfo(airPressure, tireModel);
                     break;
                 }
@@ -119,7 +111,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             {
                 try
                 {
-                    energyPercentage = m_UserInput.GetCurrentEnergyPercentage();
+                    float energyPercentage = m_UserInput.GetCurrentEnergyPercentage();
                     i_Vehicle.EnergyPercentage = energyPercentage;
                     break;
                 }
@@ -129,157 +121,14 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 }
             }
 
-            if (i_Vehicle is FuelMotorcycle fuelMotorcycle)
+            object[] extraFunc = i_Vehicle.getExtraDetailsFunctions();
+            string[] extraFuncNames = i_Vehicle.getExtraDetailsText();
+            
+            for (int i = 0; i < extraFunc.Length; i++)
             {
-                while (true)
-                {
-                    try
-                    {
-                        licenseType = m_UserInput.GetLicenseType();
-                        fuelMotorcycle.LicenseType = licenseType;
-                        break;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-
-                while (true)
-                {
-                    try
-                    {
-                        engineCapacity = m_UserInput.GetEngineCapacity();
-                        fuelMotorcycle.EngineCapacity = engineCapacity;
-                        break;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-            }
-            else if (i_Vehicle is ElectricMotorcycle elMotorcycle)
-            {
-                while (true)
-                {
-                    try
-                    {
-                        licenseType = m_UserInput.GetLicenseType();
-                        elMotorcycle.LicenseType = licenseType;
-                        break;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-
-                while (true)
-                {
-                    try
-                    {
-                        engineCapacity = m_UserInput.GetEngineCapacity();
-                        elMotorcycle.EngineCapacity = engineCapacity;
-                        break;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-            }
-            else if (i_Vehicle is FuelCar fuelCar)
-            {
-                while (true)
-                {
-                    try
-                    {
-                        color = m_UserInput.GetCarColor();
-                        fuelCar.Color = color;
-                        break;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-
-
-                while (true)
-                {
-                    try
-                    {
-                        numDoors = m_UserInput.GetNumberOfDoors();
-                        fuelCar.NumberOfDoors = numDoors;
-                        break;
-                    }
-                    catch (ValueRangeException e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-            }
-            else if (i_Vehicle is ElectricCar elCar)
-            {
-                while (true)
-                {
-                    try
-                    {
-                        color = m_UserInput.GetCarColor();
-                        elCar.Color = color;
-                        break;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-
-
-                while (true)
-                {
-                    try
-                    {
-                        numDoors = m_UserInput.GetNumberOfDoors();
-                        elCar.NumberOfDoors = numDoors;
-                        break;
-                    }
-                    catch (ValueRangeException e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-            }
-            else if (i_Vehicle is Truck truck)
-            {
-                while (true)
-                {
-                    try
-                    {
-                        hasHazard = m_UserInput.GetIsHazardous();
-                        truck.CarriesHazardousMaterials = hasHazard;
-                        break;
-                    }
-                    catch (FormatException e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-
-                while (true)
-                {
-                    try
-                    {
-                        cargoVolume = m_UserInput.GetCargoVolume();
-                        truck.CargoVolume = cargoVolume;
-                        break;
-                    }
-                    catch (FormatException e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
+                Console.Write(extraFuncNames[i]);
+                string returnValue = Console.ReadLine();
+                ((Action<string>)extraFunc[i]).Invoke(returnValue);
             }
         }
 

@@ -7,12 +7,11 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
 {
     public class UserInput
     {
-
-
         public string GetOwnerName()
         {
             Console.Write("Enter owner name: ");
             string ownerName = Console.ReadLine();
+            
             return ownerName;
         }
 
@@ -37,7 +36,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 Console.Write("Please enter the type of vehicle: ");
                 selectedType = Console.ReadLine();
 
-                if (VehicleCreator.SupportedTypes.Contains(selectedType))
+                if (VehicleFactory.SupportedTypes.Contains(selectedType))
                 {
                     break;
                 }
@@ -51,6 +50,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
         {
             Console.Write("Please enter the vehicle model name: ");
             string modelName = Console.ReadLine();
+            
             return modelName;
         }
 

@@ -43,22 +43,22 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                     string ownerName = parts[6];
                     string ownerPhone = parts[7];
 
-                    Vehicle vehicle = VehicleCreator.CreateVehicle(vehicleType, licenseNumber, modelName);
+                    Vehicle vehicle = VehicleFactory.CreateVehicle(vehicleType, licenseNumber, modelName);
                     vehicle.EnergyPercentage = energyPercentage;
-                    vehicle.SetTiresManuFacturer(tireModel);
+                    vehicle.SetTiresManufacturer(tireModel);
                     vehicle.SetTiresPressure(currAirPressure);
 
-                    object[] extraFunc = vehicle.getExtraDetailsFunctions();
+                    object[] extraFunc = vehicle.GetExtraDetailsFunctions();
 
                     for (int i = 0; i < extraFunc.Length; i++)
                     {
-                            string returnValue = parts[i+8];
+                            string returnValue = parts[i + 8];
                             try
                             {
                                 ((Action<string>)extraFunc[i]).Invoke(returnValue);
                                 break;
                             }
-                            catch(Exception e)
+                            catch (Exception e)
                             {
                                 Console.WriteLine(e.Message);
                             }

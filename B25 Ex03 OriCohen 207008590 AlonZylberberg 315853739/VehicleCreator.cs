@@ -2,9 +2,9 @@
 
 namespace Ex03.GarageLogic
 {
-    public abstract class VehicleCreator
+    public abstract class VehicleFactory
     {
-        public static Vehicle CreateVehicle(string i_VehicleType, string i_LicenseID, string i_ModelName)
+        public static Vehicle CreateVehicle(string i_VehicleType, string i_LicenseID, string i_ModelName) 
         {
             Vehicle newVehicle = null;
 

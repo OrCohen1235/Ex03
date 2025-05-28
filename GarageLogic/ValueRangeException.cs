@@ -4,8 +4,8 @@ namespace Ex03.GarageLogic
 {
     public class ValueRangeException : Exception
     {
-        public float m_MinValue { get; }
-        public float m_MaxValue { get; }
+        private float m_MinValue;
+        private float m_MaxValue;
 
         public ValueRangeException(float i_MinValue, float i_MaxValue)
             : base($"The value must be between {i_MinValue} and {i_MaxValue}.")

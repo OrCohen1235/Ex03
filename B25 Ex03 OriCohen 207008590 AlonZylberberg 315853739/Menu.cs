@@ -66,7 +66,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 }
             }
         }
-
+        
         private void PrintMenu()
         {
             Console.WriteLine("Garage Management System - Main Menu");
@@ -115,6 +115,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 if (!Enum.TryParse(fuelInput, true, out eFuelType fuelType))
                 {
                     Console.WriteLine("Invalid fuel type.");
+                    
                     return;
                 }
 
@@ -147,6 +148,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
         private string GetLicenseFromUser()
         {
             Console.Write("Enter vehicle license number: ");
+            
             return Console.ReadLine();
         }
 

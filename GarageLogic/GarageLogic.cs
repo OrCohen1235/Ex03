@@ -104,22 +104,22 @@ namespace Ex03.GarageLogic
             float i_EnergyPercentage,
             int i_AmountOfWheels,
             string i_WheelManufacturer,
-            float i_WheelcurrentPressure,
-            float i_WheelmaxPressure)
+            float i_WheelCurrentPressure,
+            float i_WheelMaxPressure)
         {
             r_ModelName = i_ModelName;
             r_LicenseNumber = i_LicenseNumber;
             m_EnergyPercentage = i_EnergyPercentage;
-            CreateWheels(i_WheelManufacturer, i_AmountOfWheels, i_WheelcurrentPressure, i_WheelmaxPressure);
+            CreateWheels(i_WheelManufacturer, i_AmountOfWheels, i_WheelCurrentPressure, i_WheelMaxPressure);
         }
 
-        public void CreateWheels(string i_WheelManufacturer, int i_AmountOfWheels, float i_WheelcurrentPressure,
-            float i_WheelmaxPressure)
+        public void CreateWheels(string i_WheelManufacturer, int i_AmountOfWheels, float i_WheelCurrentPressure,
+            float i_WheelMaxPressure)
         {
             m_Wheels = new List<Wheel>(i_AmountOfWheels);
             for (int i = 0; i < i_AmountOfWheels; i++)
             {
-                m_Wheels.Add(new Wheel(i_WheelManufacturer, i_WheelcurrentPressure, i_WheelmaxPressure));
+                m_Wheels.Add(new Wheel(i_WheelManufacturer, i_WheelCurrentPressure, i_WheelMaxPressure));
             }
         }
 
@@ -142,7 +142,7 @@ namespace Ex03.GarageLogic
         }
 
 
-        public void SetTiresManuFacturer(string i_Manufacturer)
+        public void SetTiresManufacturer(string i_Manufacturer)
         {
             foreach(Wheel wheel in m_Wheels)
             {
@@ -215,15 +215,16 @@ namespace Ex03.GarageLogic
 
 
         public abstract string PrintVehicleDetails();
-        public abstract object[] getExtraDetailsFunctions();
-        public abstract string[] getExtraDetailsText();
+        public abstract object[] GetExtraDetailsFunctions();
+        public abstract string[] GetExtraDetailsText();
 
         public string[] GetAllSetInfoStrings()
         {
-            string[] infoStrings=new string[3];
+            string[] infoStrings = new string[3];
             infoStrings[0] = "Enter current energy percentage (0-100): ";
             infoStrings[1] = "Enter Tire Model: ";
             infoStrings[2] = "Enter Current Air Pressure: ";
+            
             return infoStrings;
         }
 
@@ -231,8 +232,9 @@ namespace Ex03.GarageLogic
         {
             object[] extraDetails = new object[3];
             extraDetails[0] = new Action<string>(setCurrentEnergyPercentage);
-            extraDetails[1] = new Action<string>(SetTiresManuFacturer);
+            extraDetails[1] = new Action<string>(SetTiresManufacturer);
             extraDetails[2] = new Action<string>(SetTiresPressure);
+            
             return extraDetails;
         }
     }
@@ -289,11 +291,7 @@ namespace Ex03.GarageLogic
         }
         public float CurrentFuelAmount
         {
-            get
-            {
-                return m_CurrentFuelAmount;
-            }
-
+            get {return m_CurrentFuelAmount; }
         }
 
         public void Refuel(eFuelType i_FuelType, float i_LitersToAdd)
@@ -458,19 +456,21 @@ namespace Ex03.GarageLogic
             EngineCapacity = engineCapacity;
         }
 
-        public override object[] getExtraDetailsFunctions()
+        public override object[] GetExtraDetailsFunctions()
         {
             object[] extraDetails = new object[2];
             extraDetails[0] = new Action<string>(setLicenseType);
             extraDetails[1] = new Action<string>(setEngineCapacity);
+            
             return extraDetails;
         }
         
-        public override string[] getExtraDetailsText()
+        public override string[] GetExtraDetailsText()
         {
             string[] extraDetailsText = new string[2];
             extraDetailsText[0] = "Enter License Type (A, A2, AB, B2):";
             extraDetailsText[1] = "Enter Engine Capacity (in cc):";
+            
             return extraDetailsText;
         }
     }
@@ -530,7 +530,7 @@ namespace Ex03.GarageLogic
                    $"Wheels Manufacturer: {Wheels[0].Manufacturer}";
         }
 
-        private void SetLicenseType(string i_LicenseType)
+        private void setLicenseType(string i_LicenseType)
         {
             if (Enum.TryParse(i_LicenseType, true, out eLicenseType licenseType) && Enum.IsDefined(typeof(eLicenseType), licenseType))
             {
@@ -557,19 +557,21 @@ namespace Ex03.GarageLogic
             EngineCapacity = engineCapacity;
         }
 
-        public override object[] getExtraDetailsFunctions()
+        public override object[] GetExtraDetailsFunctions()
         {
             object[] extraDetails = new object[2];
-            extraDetails[0] = new Action<string>(SetLicenseType);
+            extraDetails[0] = new Action<string>(setLicenseType);
             extraDetails[1] = new Action<string>(SetEngineCapacity);
+            
             return extraDetails;
         }
         
-        public override string[] getExtraDetailsText()
+        public override string[] GetExtraDetailsText()
         {
             string[] extraDetailsText = new string[2];
             extraDetailsText[0] = "Enter License Type (A, A2, AB, B2):";
             extraDetailsText[1] = "Enter Engine Capacity (in cc):";
+            
             return extraDetailsText;
         }
     }
@@ -613,21 +615,13 @@ namespace Ex03.GarageLogic
         public eCarColor Color
         {
             get { return m_Color; }
-            set
-            {
-                m_Color= value;
-            }
+            set { m_Color= value; }
         }
 
         public int NumberOfDoors
         {
-            get
-            {
-                return m_NumberOfDoors;}
-            set
-            {
-                m_NumberOfDoors= value;
-            }
+            get { return m_NumberOfDoors;}
+            set { m_NumberOfDoors= value; }
         }
 
         public override string PrintVehicleDetails()
@@ -672,19 +666,21 @@ namespace Ex03.GarageLogic
             NumberOfDoors = numDoors;
         }
         
-        public override object[] getExtraDetailsFunctions()
+        public override object[] GetExtraDetailsFunctions()
         {
             object[] extraDetails = new object[2];
             extraDetails[0] = new Action<string>(setColor);
             extraDetails[1] = new Action<string>(setNumOfDoors);
+            
             return extraDetails;
         }
         
-        public override string[] getExtraDetailsText()
+        public override string[] GetExtraDetailsText()
         {
             string[] extraDetailsText = new string[2];
             extraDetailsText[0] = "Enter car color: (Yellow, Black, White, Silver): ";
             extraDetailsText[1] = "Enter number of doors (2-5): ";
+            
             return extraDetailsText;
         }
     }
@@ -748,7 +744,7 @@ namespace Ex03.GarageLogic
                    $"Wheels Manufacturer: {Wheels[0].Manufacturer}";
         }
 
-        private void SetColor(string i_Color)
+        private void setColor(string i_Color)
         {
             if (Enum.TryParse(i_Color, true, out eCarColor color) && Enum.IsDefined(typeof(eCarColor), color))
             {
@@ -774,19 +770,21 @@ namespace Ex03.GarageLogic
 
             NumberOfDoors = numDoors;
         }
-        public override object[] getExtraDetailsFunctions()
+        public override object[] GetExtraDetailsFunctions()
         {
             object[] extraDetails = new object[2];
-            extraDetails[0] = new Action<string>(SetColor);
+            extraDetails[0] = new Action<string>(setColor);
             extraDetails[1] = new Action<string>(setNumOfDoors);
+            
             return extraDetails;
         }
         
-        public override string[] getExtraDetailsText()
+        public override string[] GetExtraDetailsText()
         {
             string[] extraDetailsText = new string[2];
             extraDetailsText[0] = "Enter car color: (Yellow, Black, White, Silver): ";
             extraDetailsText[1] = "Enter number of doors (2-5): ";
+            
             return extraDetailsText;
         }
          
@@ -865,19 +863,21 @@ namespace Ex03.GarageLogic
             CargoVolume = cargoVolume;
         }
 
-        public override object[] getExtraDetailsFunctions()
+        public override object[] GetExtraDetailsFunctions()
         {
             object[] extraDetails = new object[2];
             extraDetails[0] = new Action<string>(SetHazardousMaterials);
             extraDetails[1] = new Action<string>(SetCargoVolume);
+            
             return extraDetails;
         }
         
-        public override string[] getExtraDetailsText()
+        public override string[] GetExtraDetailsText()
         {
             string[] extraDetailsText = new string[2];
             extraDetailsText[0] = "Does the truck carry hazardous materials? (true/false): ";
             extraDetailsText[1] = "Enter cargo volume: ";
+            
             return extraDetailsText;
         }
     }

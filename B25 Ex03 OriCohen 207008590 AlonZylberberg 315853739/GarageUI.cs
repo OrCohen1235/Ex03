@@ -74,7 +74,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
         private Vehicle addVehicle(string i_LicenseNumber)
         {
             Console.WriteLine("Supported vehicle types:");
-            foreach (string type in VehicleCreator.SupportedTypes)
+            foreach (string type in VehicleFactory.SupportedTypes)
             {
                 Console.WriteLine($"- {type}");
             }
@@ -82,7 +82,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             string selectedType = m_UserInput.GetVehicleType();
             string modelName = m_UserInput.GetVehicleModelName();
 
-            Vehicle newVehicle = VehicleCreator.CreateVehicle(selectedType, i_LicenseNumber, modelName);
+            Vehicle newVehicle = VehicleFactory.CreateVehicle(selectedType, i_LicenseNumber, modelName);
             fillVehicleDetails(newVehicle);
 
             return newVehicle;
@@ -113,8 +113,8 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             }
 
 
-            object[] extraFunc = i_Vehicle.getExtraDetailsFunctions();
-            string[] extraFuncNames = i_Vehicle.getExtraDetailsText();
+            object[] extraFunc = i_Vehicle.GetExtraDetailsFunctions();
+            string[] extraFuncNames = i_Vehicle.GetExtraDetailsText();
             
             for (int i = 0; i < extraFunc.Length; i++)
             {
@@ -160,13 +160,14 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 if (!isParsed)
                 {
                     Console.WriteLine("Invalid status entered. Please try again.");
+                    
                     return;
                 }
 
                 Console.WriteLine($"Vehicles with status '{selectedStatus}':");
 
                 bool found = false;
-                foreach (KeyValuePair<string,VehicleRecords> vehicle in m_Vehicles)
+                foreach (KeyValuePair<string, VehicleRecords> vehicle in m_Vehicles)
                 {
                     if (vehicle.Value.Status == selectedStatus)
                     {
@@ -190,19 +191,20 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             }
         }
 
-        public void ChangeVehicleStatus(string i_ModelNumber, string i_newStatus)
+        public void ChangeVehicleStatus(string i_ModelNumber, string i_NewStatus)
         {
             if (!m_Vehicles.ContainsKey(i_ModelNumber))
             {
                 Console.WriteLine($"No vehicle found with model number: {i_ModelNumber}");
+                
                 return;
             }
 
-            bool isParsed = Enum.TryParse(i_newStatus, out VehicleRecords.eVehicleStatus selectedStatus);
+            bool isParsed = Enum.TryParse(i_NewStatus, out VehicleRecords.eVehicleStatus selectedStatus);
 
             if (!isParsed)
             {
-                Console.WriteLine($"Invalid status: {i_newStatus}. Valid statuses are:");
+                Console.WriteLine($"Invalid status: {i_NewStatus}. Valid statuses are:");
                 foreach (string status in Enum.GetNames(typeof(VehicleRecords.eVehicleStatus)))
                 {
                     Console.WriteLine($"- {status}");
@@ -221,6 +223,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             if (!m_Vehicles.ContainsKey(i_ModelNumber))
             {
                 Console.WriteLine($"No vehicle found with model number: {i_ModelNumber}");
+                
                 return;
             }
 
@@ -228,6 +231,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             if (carToCharge == null)
             {
                 Console.WriteLine("The vehicle is not an electric vehicle.");
+                
                 return;
             }
 
@@ -251,6 +255,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             if (!m_Vehicles.ContainsKey(i_ModelNumber))
             {
                 Console.WriteLine($"No vehicle found with model number: {i_ModelNumber}");
+                
                 return;
             }
 
@@ -258,6 +263,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             if (vehicleToRefuel == null)
             {
                 Console.WriteLine("The vehicle is not a fuel Vehicle.");
+                
                 return;
             }
 
@@ -270,6 +276,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             if (!m_Vehicles.ContainsKey(i_licenseNumber))
             {
                 Console.WriteLine($"No vehicle found with license number: {i_licenseNumber}");
+                
                 return;
             }
 

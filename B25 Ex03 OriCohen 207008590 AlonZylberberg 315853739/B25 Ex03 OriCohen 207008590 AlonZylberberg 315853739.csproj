@@ -40,8 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GarageUI.cs" />
+    <Compile Include="loadDataFromDb.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="userInput.cs" />
     <Compile Include="VehicleCreator.cs" />
   </ItemGroup>
   <ItemGroup>

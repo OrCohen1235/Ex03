@@ -41,7 +41,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             }
             else
             {
-                Vehicle newVehicle = AddVehicle(i_LicenseNumber);
+                Vehicle newVehicle = addVehicle(i_LicenseNumber);
 
                 string ownerName = m_UserInput.GetOwnerName();
                 string ownerPhone = m_UserInput.GetOwnerPhone();
@@ -71,7 +71,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             }
         }
 
-        private Vehicle AddVehicle(string i_LicenseNumber)
+        private Vehicle addVehicle(string i_LicenseNumber)
         {
             Console.WriteLine("Supported vehicle types:");
             foreach (string type in VehicleCreator.SupportedTypes)
@@ -83,52 +83,56 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             string modelName = m_UserInput.GetVehicleModelName();
 
             Vehicle newVehicle = VehicleCreator.CreateVehicle(selectedType, i_LicenseNumber, modelName);
-            FillVehicleDetails(newVehicle);
+            fillVehicleDetails(newVehicle);
 
             return newVehicle;
         }
 
 
-        private void FillVehicleDetails(Vehicle i_Vehicle)
+        private void fillVehicleDetails(Vehicle i_Vehicle)
         {
-            string tireModel = m_UserInput.GetTireModel();
-            
-            while (true)
+            string[] getInfoFuncNames = i_Vehicle.GetAllSetInfoStrings();
+            object[] getInfoFunctions = i_Vehicle.GetAllSetInfoFunctions();
+
+            for(int i = 0; i < getInfoFunctions.Length; i++)
             {
-                try
+                while(true)
                 {
-                    float airPressure = m_UserInput.GetTireAirPressure();
-                    i_Vehicle.SetTiresInfo(airPressure, tireModel);
-                    break;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
+                    Console.Write(getInfoFuncNames[i]);
+                    string inputFromUser = Console.ReadLine();
+                    try
+                    {
+                        ((Action<string>)getInfoFunctions[i]).Invoke(inputFromUser);
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                 }
             }
 
-            while (true)
-            {
-                try
-                {
-                    float energyPercentage = m_UserInput.GetCurrentEnergyPercentage();
-                    i_Vehicle.EnergyPercentage = energyPercentage;
-                    break;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-            }
 
             object[] extraFunc = i_Vehicle.getExtraDetailsFunctions();
             string[] extraFuncNames = i_Vehicle.getExtraDetailsText();
             
             for (int i = 0; i < extraFunc.Length; i++)
             {
-                Console.Write(extraFuncNames[i]);
-                string returnValue = Console.ReadLine();
-                ((Action<string>)extraFunc[i]).Invoke(returnValue);
+                while (true)
+                {
+                    Console.Write(extraFuncNames[i]);
+                    string returnValue = Console.ReadLine();
+                    try
+                    {
+                        ((Action<string>)extraFunc[i]).Invoke(returnValue);
+                        break;
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+
             }
         }
 
@@ -162,7 +166,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                 Console.WriteLine($"Vehicles with status '{selectedStatus}':");
 
                 bool found = false;
-                foreach (var vehicle in m_Vehicles)
+                foreach (KeyValuePair<string,VehicleRecords> vehicle in m_Vehicles)
                 {
                     if (vehicle.Value.Status == selectedStatus)
                     {
@@ -179,7 +183,7 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
             else
             {
                 Console.WriteLine("Those are all the vehicles in the garage at this moment.");
-                foreach (var vehicle in m_Vehicles)
+                foreach (KeyValuePair<string, VehicleRecords> vehicle in m_Vehicles)
                 {
                     Console.WriteLine($"- {vehicle.Key}");
                 }

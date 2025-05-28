@@ -123,16 +123,29 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void SetTiresInfo(float i_airPressure, string i_Manufacturer)
+        public void SetTiresPressure(string i_AirPressure)
         {
+            if (!float.TryParse(i_AirPressure, out float parsedPressure))
+            {
+                throw new FormatException("Air pressure must be a valid float number.");
+            }
+
             foreach (Wheel wheel in m_Wheels)
             {
-                if (i_airPressure >= wheel.MaxPressure)
+                if (parsedPressure < 0f || parsedPressure > wheel.MaxPressure)
                 {
-                    throw new ValueRangeException(0, wheel.MaxPressure, "Current pressure cannot exceed max pressure.");
+                    throw new ValueRangeException(0, wheel.MaxPressure, "Current pressure must be between 0 and max pressure.");
                 }
 
-                wheel.CurrentPressure = i_airPressure;
+                wheel.CurrentPressure = parsedPressure;
+            }
+        }
+
+
+        public void SetTiresManuFacturer(string i_Manufacturer)
+        {
+            foreach(Wheel wheel in m_Wheels)
+            {
                 wheel.Manufacturer = i_Manufacturer;
             }
         }
@@ -177,9 +190,51 @@ namespace Ex03.GarageLogic
             get { return m_Wheels; }
         }
 
+        public void SetEnergyPercentage(string i_EnergyPercentage)
+        {
+            if (float.TryParse(i_EnergyPercentage, out float parsedValue))
+            {
+                EnergyPercentage=parsedValue;
+            }
+            else
+            {
+                throw new FormatException("Energy percentage must be a valid float.");
+            }
+        }
+        public void setCurrentEnergyPercentage(string i_EnergyInput)
+        {
+            if (!float.TryParse(i_EnergyInput, out float energyPercentage) || energyPercentage < 0 ||
+                energyPercentage > 100)
+            {
+                throw new ValueRangeException("Energy percentage must be between 0 and 100.");
+            }
+            SetEnergyPercentage(i_EnergyInput);
+
+        }
+
+
+
         public abstract string PrintVehicleDetails();
         public abstract object[] getExtraDetailsFunctions();
         public abstract string[] getExtraDetailsText();
+
+        public string[] GetAllSetInfoStrings()
+        {
+            string[] infoStrings=new string[3];
+            infoStrings[0] = "Enter current energy percentage (0-100): ";
+            infoStrings[1] = "Enter Tire Model: ";
+            infoStrings[2] = "Enter Current Air Pressure: ";
+            return infoStrings;
+        }
+
+        public object[] GetAllSetInfoFunctions()
+        {
+            object[] extraDetails = new object[3];
+            extraDetails[0] = new Action<string>(setCurrentEnergyPercentage);
+            extraDetails[1] = new Action<string>(SetTiresManuFacturer);
+            extraDetails[2] = new Action<string>(SetTiresPressure);
+            return extraDetails;
+        }
     }
 
     // Fuel-based vehicle
@@ -234,7 +289,11 @@ namespace Ex03.GarageLogic
         }
         public float CurrentFuelAmount
         {
-            get;
+            get
+            {
+                return m_CurrentFuelAmount;
+            }
+
         }
 
         public void Refuel(eFuelType i_FuelType, float i_LitersToAdd)
@@ -372,7 +431,7 @@ namespace Ex03.GarageLogic
         }
 
         
-        private void SetLicenseType(string i_LicenseType)
+        private void setLicenseType(string i_LicenseType)
         {
             if (Enum.TryParse(i_LicenseType, true, out eLicenseType licenseType) && Enum.IsDefined(typeof(eLicenseType), licenseType))
             {
@@ -384,7 +443,7 @@ namespace Ex03.GarageLogic
             }
         }
         
-        private void SetEngineCapacity(string i_EngineCapacity)
+        private void setEngineCapacity(string i_EngineCapacity)
         {
             if (!int.TryParse(i_EngineCapacity, out int engineCapacity))
             {
@@ -402,8 +461,8 @@ namespace Ex03.GarageLogic
         public override object[] getExtraDetailsFunctions()
         {
             object[] extraDetails = new object[2];
-            extraDetails[0] = new Action<string>(SetLicenseType);
-            extraDetails[1] = new Action<string>(SetEngineCapacity);
+            extraDetails[0] = new Action<string>(setLicenseType);
+            extraDetails[1] = new Action<string>(setEngineCapacity);
             return extraDetails;
         }
         
@@ -553,14 +612,22 @@ namespace Ex03.GarageLogic
 
         public eCarColor Color
         {
-            get;
-            set;
+            get { return m_Color; }
+            set
+            {
+                m_Color= value;
+            }
         }
 
         public int NumberOfDoors
         {
-            get;
-            set;
+            get
+            {
+                return m_NumberOfDoors;}
+            set
+            {
+                m_NumberOfDoors= value;
+            }
         }
 
         public override string PrintVehicleDetails()
@@ -578,7 +645,7 @@ namespace Ex03.GarageLogic
                    $"Wheels Manufacturer: {Wheels[0].Manufacturer}";
         }
 
-        private void SetColor(string i_Color)
+        private void setColor(string i_Color)
         {
             if (Enum.TryParse(i_Color, true, out eCarColor color) && Enum.IsDefined(typeof(eCarColor), color))
             {
@@ -608,7 +675,7 @@ namespace Ex03.GarageLogic
         public override object[] getExtraDetailsFunctions()
         {
             object[] extraDetails = new object[2];
-            extraDetails[0] = new Action<string>(SetColor);
+            extraDetails[0] = new Action<string>(setColor);
             extraDetails[1] = new Action<string>(setNumOfDoors);
             return extraDetails;
         }

@@ -39,100 +39,30 @@ namespace B25_Ex03_OriCohen_207008590_AlonZylberberg_315853739
                     }
 
                     string tireModel = parts[4];
-
-                    if (!float.TryParse(parts[5], out float currAirPressure))
-                    {
-                        Console.WriteLine($"Invalid air pressure: {parts[5]}");
-                        continue;
-                    }
-
+                    string currAirPressure = parts[5];
                     string ownerName = parts[6];
                     string ownerPhone = parts[7];
 
                     Vehicle vehicle = VehicleCreator.CreateVehicle(vehicleType, licenseNumber, modelName);
                     vehicle.EnergyPercentage = energyPercentage;
-                    vehicle.SetTiresInfo(currAirPressure, tireModel);
+                    vehicle.SetTiresManuFacturer(tireModel);
+                    vehicle.SetTiresPressure(currAirPressure);
 
-                    switch (vehicle)
+                    object[] extraFunc = vehicle.getExtraDetailsFunctions();
+
+                    for (int i = 0; i < extraFunc.Length; i++)
                     {
-                        case FuelCar fuelCar:
-                            if (Enum.TryParse(parts[8], out eCarColor color) &&
-                                int.TryParse(parts[9], out int doors))
+                            string returnValue = parts[i+8];
+                            try
                             {
-                                fuelCar.Color = color;
-                                fuelCar.NumberOfDoors = doors;
+                                ((Action<string>)extraFunc[i]).Invoke(returnValue);
+                                break;
                             }
-                            else
+                            catch(Exception e)
                             {
-                                Console.WriteLine($"Invalid data for FuelCar: {line}");
-                                continue;
+                                Console.WriteLine(e.Message);
                             }
 
-                            break;
-
-                        case ElectricCar electricCar:
-                            if (Enum.TryParse(parts[8], out eCarColor elecColor) &&
-                                int.TryParse(parts[9], out int elecDoors))
-                            {
-                                electricCar.Color = elecColor;
-                                electricCar.NumberOfDoors = elecDoors;
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Invalid data for ElectricCar: {line}");
-                                continue;
-                            }
-
-                            break;
-
-                        case FuelMotorcycle fuelMoto:
-                            if (Enum.TryParse(parts[8], out eLicenseType fuelLicType) &&
-                                int.TryParse(parts[9], out int engineCap))
-                            {
-                                fuelMoto.LicenseType = fuelLicType;
-                                fuelMoto.EngineCapacity = engineCap;
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Invalid data for FuelMotorcycle: {line}");
-                                continue;
-                            }
-
-                            break;
-
-                        case ElectricMotorcycle elecMoto:
-                            if (Enum.TryParse(parts[8], out eLicenseType elecLicType) &&
-                                int.TryParse(parts[9], out int elecEngineCap))
-                            {
-                                elecMoto.LicenseType = elecLicType;
-                                elecMoto.EngineCapacity = elecEngineCap;
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Invalid data for ElectricMotorcycle: {line}");
-                                continue;
-                            }
-
-                            break;
-
-                        case Truck truck:
-                            if (bool.TryParse(parts[8], out bool isHazardous) &&
-                                float.TryParse(parts[9], out float cargoVolume))
-                            {
-                                truck.CargoVolume = cargoVolume;
-                                truck.CarriesHazardousMaterials = isHazardous;
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Invalid data for Truck: {line}");
-                                continue;
-                            }
-
-                            break;
-
-                        default:
-                            Console.WriteLine($"Unknown vehicle type: {vehicleType}");
-                            continue;
                     }
 
                     vehicles[licenseNumber] = new VehicleRecords
